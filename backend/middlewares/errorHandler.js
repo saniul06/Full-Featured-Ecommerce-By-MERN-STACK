@@ -34,6 +34,27 @@ module.exports = (err, req, res, next) => {
             // error.statusScode = 404
         }
 
+        // Handle duplicate field
+        if (err.code === 11000) {
+            // error.message = `Duplicate ${Object.keys(err.keyValue)} is not allowed`
+            const message = `Duplicate ${Object.keys(err.keyValue)} is not allowed`
+            error = new ErrorHandler(message, 400)
+        }
+
+        // Handle JWT token error
+
+        if (err.name === 'JsonWebTokenError') {
+            const message = 'Json web token is invalid. Try again'
+            error = new ErrorHandler(message, 400)
+        }
+
+        // Handle JWT token expire error
+
+        if (err.name === 'TokenExpiredError') {
+            const message = 'Json web token is expired. Try again'
+            error = new ErrorHandler(message, 400)
+        }
+
         res.status(error.statusCode).json({
             success: false,
             errorMessage: error.message

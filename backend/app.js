@@ -16,9 +16,9 @@ app.use(cookieParser())
 
 //import routes
 const products = require('./routes/productRoutes')
-const user = require('./routes/userRoutes')
+const auth = require('./routes/authRoutes')
 
-app.use('/api/v1', products, user)
+app.use('/api/v1', products, auth)
 
 //handle errors
 app.use(errorMiddleware)

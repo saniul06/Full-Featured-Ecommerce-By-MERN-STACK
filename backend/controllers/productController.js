@@ -5,7 +5,6 @@ const ApiFeatures = require('../utils/apiFeatures')
 
 exports.getAllProducts = asyncErrorHandler(async (req, res, next) => {
 
-
     const totalProduct = await Product.countDocuments()
     console.log('total totalProduct is: ', totalProduct)
 
@@ -26,6 +25,7 @@ exports.getAllProducts = asyncErrorHandler(async (req, res, next) => {
 
 exports.createNewProduct = asyncErrorHandler(async (req, res, next) => {
 
+    req.body.user = req.user._id
     const product = await Product.create(req.body);
     res.status(201).json({
         success: true,
