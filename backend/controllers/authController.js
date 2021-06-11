@@ -117,6 +117,5 @@ exports.resetPassword = asyncErrorHandler(async (req, res, next) => {
 
     sendToken(user, 200, res)
 
-
 })
 
