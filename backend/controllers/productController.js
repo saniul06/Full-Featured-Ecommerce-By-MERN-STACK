@@ -71,3 +71,79 @@ exports.deleteSingleProduct = asyncErrorHandler(async (req, res, next) => {
         message: 'Product deleted successfully'
     })
 })
+
+exports.createProductReview = asyncErrorHandler(async (req, res, next) => {
+    const { productId, rating, comment } = req.body
+
+    const review = {
+        user: req.user._id,
+        name: req.user.name,
+        rating: Number(rating),
+        comment
+    }
+
+    const product = await Product.findById(productId)
+    const isReviewed = product.reviews.find(item => item.user.toString() === req.user._id.toString())
+
+    if (isReviewed) {
+        product.reviews.forEach(item => {
+            if (item.user.toString() === req.user._id.toString()) {
+                item.rating = rating
+                item.comment = comment
+            }
+        })
+    } else {
+        product.reviews.push(review)
+        product.numberOfReviews = product.reviews.length
+    }
+
+    if (product.reviews.length > 0) {
+        product.ratings = product.reviews.reduce((acc, item) => item.rating + acc, 0) / product.reviews.length
+    } else {
+        product.ratings = 0
+    }
+
+    product.save({ validateBeforeSave: false })
+
+    res.status(200).json({
+        success: true,
+        message: 'Review added successfully'
+    })
+
+})
+
+exports.getProductReviews = asyncErrorHandler(async (req, res, next) => {
+    const product = await Product.findById(req.query.id)
+
+    if (!product) {
+        return next(new ErrorHandler(`Product not found with this id: ${req.params.id}`))
+    }
+
+    res.status(200).json({
+        success: true,
+        reviews: product.reviews
+    })
+})
+
+exports.deleteReview = asyncErrorHandler(async (req, res, next) => {
+    const product = await Product.findById(req.query.productId)
+
+    if (!product) {
+        return next(new ErrorHandler(`Product not found with this id: ${req.query.id}`))
+    }
+
+    product.reviews = product.reviews.filter(item => item._id.toString() !== req.query.id.toString())
+
+    if (product.reviews.length > 0) {
+        product.ratings = product.reviews.reduce((acc, item) => item.rating + acc, 0) / product.reviews.length
+    }
+
+    product.numberOfReviews = product.reviews.length
+
+    await product.save({ validateBeforeSave: false })
+
+    res.status(200).json({
+        success: true
+    })
+
+})
