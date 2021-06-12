@@ -4,7 +4,6 @@ const asyncErrorHandler = require('../middlewares/asyncErrorHandler')
 const ApiFeatures = require('../utils/apiFeatures')
 
 exports.getAllProducts = asyncErrorHandler(async (req, res, next) => {
-
     const totalProduct = await Product.countDocuments()
     console.log('total totalProduct is: ', totalProduct)
 

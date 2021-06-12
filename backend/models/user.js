@@ -82,4 +82,4 @@ userSchema.methods.getJwtToken = function () {
         { expiresIn: process.env.JWT_EXPIRES_TIME })
 }
 
-module.exports = mongoose.model('User', userSchema)
+module.exports = mongoose.model('user', userSchema)

@@ -19,8 +19,9 @@ const products = require('./routes/productRoutes')
 const auth = require('./routes/authRoutes')
 const user = require('./routes/userRoutes')
 const admin = require('./routes/adminRoutes')
+const order = require('./routes/orderRoutes')
 
-app.use('/api/v1', products, auth, user, admin)
+app.use('/api/v1', products, auth, user, admin, order)
 
 //handle errors
 app.use(errorMiddleware)

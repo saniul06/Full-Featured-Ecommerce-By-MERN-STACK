@@ -1,8 +1,12 @@
 const connectDatabase = require('../config/database')
 
+const dotenv = require('dotenv')
+
 const Product = require('../models/Product')
 
 const products = require('../data/products.json')
+
+dotenv.config({ path: 'backend/config/config.env' })
 
 connectDatabase()
 
