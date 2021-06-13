@@ -7,7 +7,7 @@ const connectDatabase = () => {
         useCreateIndex: true
     })
         .then(con => {
-            console.log(`database connected at host: ${con.connection.host}`)
+            console.log(`database connected at hosttttttttttttttttttttttttttttttt: ${con.connection.host}`)
         })
 }
 
