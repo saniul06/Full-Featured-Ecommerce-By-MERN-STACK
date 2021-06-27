@@ -102,7 +102,6 @@ exports.updateOrder = asyncErrorHandler(async (req, res, next) => {
 const updateStock = async (_id, quantity, res) => {
     try {
         const product = await Product.findById(_id)
-        console.log('in updateStock')
         product.stock = product.stock - quantity
         await product.save({ validateBeforeSave: false })
 

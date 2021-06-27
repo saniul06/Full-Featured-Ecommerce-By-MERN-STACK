@@ -13,9 +13,9 @@ const { isAuthenticated, authorizeRoles } = require('../middlewares/auth')
 
 const router = require('express').Router()
 
-router.route('/products').get(isAuthenticated, authorizeRoles('admin'), getAllProducts)
+router.route('/products').get(getAllProducts)
 
-router.route('/products/:id').get(isAuthenticated, getSingleProduct)
+router.route('/products/:id').get(getSingleProduct)
 
 router.route('/admin/products').post(isAuthenticated, authorizeRoles('admin'), createNewProduct)
 

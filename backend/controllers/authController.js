@@ -4,18 +4,34 @@ const ErrorHandler = require('../utils/Errors')
 const sendToken = require('../utils/jwtToken')
 const sendResetPasswordEmail = require('../utils/sendResetPasswordEmail')
 const crypto = require('crypto')
+const cloudinary = require('cloudinary')
 
 exports.registerUser = asyncErrorHandler(async (req, res, next) => {
+    const { name, email, password, avatar } = req.body
 
-    const { name, email, password, avator } = req.body
-    console.log(req.body)
+    // const result = await cloudinary.v2.uploader.upload(avatar, {
+    //     folder: 'avatars',
+    //     width: 150,
+    //     crop: 'scale'
+    // })
+
+    if (!name || !email || !password) {
+        return next(new ErrorHandler('Please fill the form', 400))
+    }
+
+    const result = await cloudinary.v2.uploader.upload(avatar, {
+        folder: 'avatars',
+        width: 150,
+        crop: 'scale'
+    })
+
     const user = await User.create({
         name,
         email,
         password,
-        avator: {
-            public_id: "aaaaaaa",
-            url: "bbbbbb"
+        avatar: {
+            public_id: result.public_id,
+            url: result.secure_url
         },
 
     })
@@ -25,6 +41,7 @@ exports.registerUser = asyncErrorHandler(async (req, res, next) => {
 
 exports.loginUser = asyncErrorHandler(async (req, res, next) => {
     const { email, password } = req.body;
+    console.log(email, password)
 
     if (!email || !password) {
         return next(new ErrorHandler('Please enter email & password', 400))
@@ -58,6 +75,7 @@ exports.logoutUser = asyncErrorHandler(async (req, res, next) => {
 })
 
 exports.forgotPassword = asyncErrorHandler(async (req, res, next) => {
+    console.log('email: ', req.body.email)
     const user = await User.findOne({ email: req.body.email })
     if (!user) {
         return next(new ErrorHandler('No user found with this email', 404))
@@ -67,7 +85,8 @@ exports.forgotPassword = asyncErrorHandler(async (req, res, next) => {
 
     await user.save({ validateBeforeSave: false })
 
-    const resetUrl = `${req.protocol}://${req.get('host')}/api/v1/password/reset/${resetToken}`
+    // const resetUrl = `${req.protocol}://${req.get('host')}/api/v1/password/reset/${resetToken}`
+    const resetUrl = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`
 
     const message = `Your password reset token is as follow: \n\n${resetUrl}\n\nIf you have not requested this email, then ignore it.`
 
@@ -80,7 +99,7 @@ exports.forgotPassword = asyncErrorHandler(async (req, res, next) => {
 
         res.status(200).json({
             success: true,
-            message: 'Successfully send reset password token'
+            message: 'Check your email to update password'
         })
     } catch (err) {
         user.resetPasswordToken = undefined
@@ -115,7 +134,11 @@ exports.resetPassword = asyncErrorHandler(async (req, res, next) => {
 
     await user.save()
 
-    sendToken(user, 200, res)
+    // sendToken(user, 200, res)
+    res.status(200).json({
+        success: true,
+        message: "Password updated successfully"
+    })
 
 })
 

@@ -5,21 +5,25 @@ const ApiFeatures = require('../utils/apiFeatures')
 
 exports.getAllProducts = asyncErrorHandler(async (req, res, next) => {
     const totalProduct = await Product.countDocuments()
-    console.log('total totalProduct is: ', totalProduct)
-
-    const itemPerPage = 5
+    const itemsPerPage = 4
     const apiFeatures = new ApiFeatures(Product, req.query)
         .search()
         .filter()
-        .pagination(itemPerPage)
+
+    const filteredProductsNumber = await apiFeatures.collection
+
+    apiFeatures.pagination(itemsPerPage)
 
     const products = await apiFeatures.collection;
+    // setTimeout(() => {
     res.status(200).json({
         success: true,
-        count: products.length,
+        itemsPerPage,
         totalProduct,
-        products
+        products,
+        count: filteredProductsNumber.length
     })
+    // }, 5000)
 })
 
 exports.createNewProduct = asyncErrorHandler(async (req, res, next) => {

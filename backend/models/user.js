@@ -22,7 +22,7 @@ const userSchema = new mongoose.Schema({
         minlength: [4, 'Password must be longer than 3 characters'],
         select: false
     },
-    avator: {
+    avatar: {
         public_id: {
             type: String,
             required: true
@@ -47,16 +47,13 @@ const userSchema = new mongoose.Schema({
 // Encrypt password
 userSchema.pre('save', async function (next) {
     if (!this.isModified('password')) {
-        console.log('not modifiedddddddddddddddddd')
         next()
     }
-    console.log('modifieddddddddddddddddddddddddddddd')
     this.password = await bcrypt.hash(this.password, 10)
 })
 
 // Compare Password
 userSchema.methods.comparePassword = async function (password) {
-    console.log('in user schema', this.password)
     return await bcrypt.compare(password, this.password)
 }
 
