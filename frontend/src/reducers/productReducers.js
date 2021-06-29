@@ -5,6 +5,7 @@ import {
     SINGLE_PRODUCT_REQUEST,
     SINGLE_PRODUCT_SUCCESS,
     SINGLE_PRODUCT_FAIL,
+    ADD_TO_CART,
     CLEAR_ERRORS
 } from '../actions/actionTypes';
 

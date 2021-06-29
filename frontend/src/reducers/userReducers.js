@@ -23,7 +23,7 @@ import {
     Logout_SUCCESS,
     Logout_FAIL,
     CLEAR_ERRORS,
-    CLEAR_MESSAGE
+    CLEAR_MESSAGES
 } from '../actions/actionTypes'
 
 export const authReducers = (state = { user: null, }, action) => {
@@ -127,7 +127,7 @@ export const userReducer = (state = {}, action) => {
                 error: null,
             }
 
-        case CLEAR_MESSAGE:
+        case CLEAR_MESSAGES:
             return {
                 ...state,
                 message: null,

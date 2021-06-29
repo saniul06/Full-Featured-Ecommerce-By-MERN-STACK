@@ -15,6 +15,7 @@ import ForgotPassword from './pages/user/forgotPassword'
 import ResetPassword from './pages/user/resetPassword'
 import ProtectedRoute from './components/route/ProtectedRoute'
 import AuthRoute from './components/route/AuthRoute'
+import Cart from './pages/cart'
 
 store.dispatch(loadUser())
 
@@ -35,6 +36,7 @@ function App() {
 					<ProtectedRoute path='/me' component={profile} exact />
 					<ProtectedRoute path='/me/edit' component={UpdateProfile} />
 					<ProtectedRoute path='/me/password' component={UpdatePassword} />
+					<Route path='/cart' component={Cart} />
 				</div>
 				<Footer />
 			</div>

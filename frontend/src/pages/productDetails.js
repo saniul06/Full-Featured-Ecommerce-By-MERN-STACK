@@ -3,15 +3,22 @@ import Loader from '../components/layouts/Loader'
 import MetaData from '../components/layouts/MetaData'
 import { Carousel } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { getSingleProduct, clearErrors } from '../actions/productActions'
 import { useAlert } from 'react-alert'
+import { getSingleProduct, clearErrors } from '../actions/productActions'
+import { addToCart, clearCartErrors, clearCartMessages } from '../actions/cartActions'
+
 
 
 const ProductDetails = ({ match }) => {
 
-    const [quantity, setQuantity] = useState(0)
+    const [quantity, setQuantity] = useState(1)
 
-    const { product, loading, error } = useSelector(state => state.singleProduct)
+    const { product, loading, error, message } = useSelector(state => state.singleProduct)
+
+    const { cartError, cartMessage } = useSelector(state => state.cart)
+
+
+
     const dispatch = useDispatch()
     const alert = useAlert()
 
@@ -24,13 +31,33 @@ const ProductDetails = ({ match }) => {
             dispatch(clearErrors())
             alert.error(error)
         }
-    }, [dispatch, alert, error])
+
+        if (cartError) {
+            dispatch(clearCartErrors())
+            alert.error(cartError)
+        }
+
+        if (cartMessage) {
+            dispatch(clearCartMessages())
+            alert.success(cartMessage)
+        }
+
+    }, [dispatch, alert, error, message, cartError, cartMessage])
 
     const increaseQty = () => {
-
-        if (quantity <= product.stock) {
+        if (quantity < product.stock) {
             setQuantity(prev => prev + 1)
         }
+    }
+
+    const decreaseQty = () => {
+        if (quantity > 1) {
+            setQuantity(prev => prev - 1)
+        }
+    }
+
+    const setCart = () => {
+        dispatch(addToCart(product, quantity))
     }
 
     return (
@@ -70,17 +97,17 @@ const ProductDetails = ({ match }) => {
 
                                 <p id="product_price">${product.price}</p>
                                 <div className="stockCounter d-inline">
-                                    <span className="btn btn-danger minus">-</span>
+                                    <span onClick={decreaseQty} className="btn btn-danger minus">-</span>
 
                                     <input type="number" className="form-control count d-inline" value={quantity} readOnly />
 
                                     <span onClick={increaseQty} className="btn btn-primary plus">+</span>
                                 </div>
-                                <button type="button" id="cart_btn" className="btn btn-primary d-inline ml-4">Add to Cart</button>
+                                <button onClick={setCart} disabled={product.stock < 1} type="button" id="cart_btn" className="btn btn-primary d-inline ml-4">Add to Cart</button>
 
                                 <hr />
 
-                                <p>Status: <span id="stock_status" className={product.stock > 0 ? 'greenColor' : 'redColor'}>{quantity <= product.stock ? 'In Stock' : 'Out of Stock'}</span></p>
+                                <p>Status: <span id="stock_status" className={quantity <= product.stock ? 'greenColor' : 'redColor'}>{quantity <= product.stock ? 'In Stock' : 'Out of Stock'}</span></p>
 
                                 <hr />
 

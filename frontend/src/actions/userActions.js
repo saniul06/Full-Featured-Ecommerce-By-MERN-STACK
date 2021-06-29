@@ -25,8 +25,7 @@ import {
     Logout_SUCCESS,
     Logout_FAIL,
     CLEAR_ERRORS,
-    CLEAR_MESSAGE,
-    CLEAR_UPDATE
+    CLEAR_MESSAGES
 } from './actionTypes'
 
 export const login = (email, password) => async dispatch => {
@@ -177,9 +176,5 @@ export const clearErrors = () => (dispatch) => {
 };
 
 export const clearMessages = () => (dispatch) => {
-    dispatch({ type: CLEAR_MESSAGE });
-};
-
-export const clearUpdates = () => (dispatch) => {
-    dispatch({ type: CLEAR_UPDATE });
+    dispatch({ type: CLEAR_MESSAGES });
 };

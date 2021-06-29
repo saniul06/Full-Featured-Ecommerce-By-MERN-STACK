@@ -1,15 +1,34 @@
+import { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useAlert } from 'react-alert';
 import '../../App.css';
 import { Link } from 'react-router-dom';
 import Search from './Search';
 import { logout } from '../../actions/userActions';
 
 const Header = () => {
+    const cartquatity = useRef();
+
+    const alert = useAlert();
     const dispatch = useDispatch();
+
     const { loading, user, error } = useSelector((state) => state.auth);
+    const { totalItems } = useSelector((state) => state.cart);
+
+    useEffect(() => {
+        if (error) {
+            alert.error(error);
+        }
+    }, [error, alert]);
+
+    // useEffect(() => {
+    //     cartquatity.current = cartItems.reduce(
+    //         (acc, item) => item.quantity + acc,
+    //         0
+    //     );
+    // }, [totalItems]);
 
     const handleLogout = () => {
-        console.log('loooooooooooooooogout');
         dispatch(logout());
     };
 
@@ -36,12 +55,14 @@ const Header = () => {
                 </div>
 
                 <div className="col-12 col-md-3 mt-4 mt-md-0 text-center">
-                    <span id="cart" className="ml-3">
-                        Cart
-                    </span>
-                    <span className="ml-1" id="cart_count">
-                        2
-                    </span>
+                    <Link to="/cart">
+                        <span id="cart" className="ml-3">
+                            Cart
+                        </span>
+                        <span className="ml-1" id="cart_count">
+                            {totalItems}
+                        </span>
+                    </Link>
                     {user ? (
                         <div className="ml-4 dropdown d-inline">
                             <Link
