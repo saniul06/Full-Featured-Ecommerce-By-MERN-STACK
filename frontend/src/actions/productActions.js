@@ -13,7 +13,7 @@ export const getAllProducts = (currentPage = 1, keyword = '', price, category = 
     try {
         let url = `/api/v1/products?page=${currentPage}&keyword=${keyword}&price[lte]=${price[1]}&price[gte]=${price[0]}&ratings[gte]=${ratings}`
         if (category) {
-            url = `/api/v1/products?page=${currentPage}&keyword=${keyword}&price[lte]=${price[1]}&price[gte]=${price[0]}&category=${category}&ratings[gte]=${ratings}`
+            url = `/api/v1/products?page=${currentPage}&keyword=${keyword}&price[lte]=${price[1]}&price[gte]=${price[0]}&ratings[gte]=${ratings}&category=${category}`
         }
 
         dispatch({ type: ALL_PRODUCTS_REQUEST });

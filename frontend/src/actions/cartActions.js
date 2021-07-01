@@ -1,10 +1,10 @@
-import { ADD_TO_CART, UPDATECART, TOTAL_ITEM, CLEAR_ERRORS, CLEAR_MESSAGES } from './actionTypes'
+import { ADD_TO_CART, UPDATECART, TOTAL_ITEM, CLEAR_ERRORS, CLEAR_MESSAGES, SAVE_SHIPPING_INFO } from './actionTypes'
 
 export const addToCart = (product, quantity) => (dispatch, getState) => {
     dispatch({
         type: ADD_TO_CART,
         payload: {
-            _id: product._id,
+            productId: product._id,
             name: product.name,
             price: product.price,
             image: product.images[0].url,
@@ -13,13 +13,18 @@ export const addToCart = (product, quantity) => (dispatch, getState) => {
         }
     })
     dispatch({ type: TOTAL_ITEM })
-    localStorage.setItem('Cart-Items', JSON.stringify(getState().cart.cartItems))
+    localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems))
 }
 
 export const updateCart = cartItems => (dispatch, getState) => {
     dispatch({ type: UPDATECART, payload: cartItems })
     dispatch({ type: TOTAL_ITEM })
-    localStorage.setItem('Cart-Items', JSON.stringify(getState().cart.cartItems))
+    localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems))
+}
+
+export const saveShippingInfo = data => dispatch => {
+    dispatch({ type: SAVE_SHIPPING_INFO, payload: data })
+    localStorage.setItem('shippingInfo', JSON.stringify(data))
 }
 
 export const clearCartErrors = () => (dispatch) => {

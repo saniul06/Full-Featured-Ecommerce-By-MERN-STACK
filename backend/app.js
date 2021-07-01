@@ -6,9 +6,13 @@ const cookieParser = require('cookie-parser')
 
 const fileUpload = require('express-fileupload')
 
+const dotenv = require('dotenv')
+
 const errorMiddleware = require('./middlewares/errorHandler');
 
 const app = express()
+
+dotenv.config({ path: 'backend/config/config.env' })
 
 app.use(morgan('dev'));
 
@@ -26,8 +30,9 @@ const auth = require('./routes/authRoutes')
 const user = require('./routes/userRoutes')
 const admin = require('./routes/adminRoutes')
 const order = require('./routes/orderRoutes')
+const payment = require('./routes/paymentRoutes')
 
-app.use('/api/v1', products, auth, user, admin, order)
+app.use('/api/v1', products, auth, user, admin, order, payment)
 
 //handle errors
 app.use(errorMiddleware)

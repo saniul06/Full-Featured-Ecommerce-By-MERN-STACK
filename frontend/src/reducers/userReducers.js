@@ -26,7 +26,7 @@ import {
     CLEAR_MESSAGES
 } from '../actions/actionTypes'
 
-export const authReducers = (state = { user: null, }, action) => {
+export const authReducers = (state = { user: null, isAuthenticated: true }, action) => {
     switch (action.type) {
 
         case REGISTER_REQUEST:
@@ -50,6 +50,7 @@ export const authReducers = (state = { user: null, }, action) => {
         case Logout_SUCCESS:
             return {
                 isAuthenticated: false,
+                loading: false,
                 user: null
             }
 

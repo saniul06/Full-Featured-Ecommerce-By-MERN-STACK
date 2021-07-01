@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/bin/node /usr/bin/yarn add body-parser
+  /usr/bin/node /usr/bin/yarn add countries-list
 
 PATH: 
   /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
@@ -14,7 +14,7 @@ Platform:
   linux x64
 
 Trace: 
-  SyntaxError: /home/san/.cache/yarn/v6/npm-cloudinary-core-2.11.4-1d191935bcdcd412d499a91b928a94b266fee49d-integrity/node_modules/cloudinary-core/.yarn-metadata.json: Unexpected end of JSON input
+  SyntaxError: /home/san/.cache/yarn/v6/npm-core-js-3.6.5-7395dc273af37fb2e50e9bd3d9fe841285231d1a-integrity/node_modules/core-js/.yarn-metadata.json: Unexpected end of JSON input
       at JSON.parse (<anonymous>)
       at /usr/lib/node_modules/yarn/lib/cli.js:1625:59
       at Generator.next (<anonymous>)

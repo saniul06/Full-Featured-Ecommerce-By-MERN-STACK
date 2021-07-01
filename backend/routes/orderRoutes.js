@@ -9,7 +9,7 @@ const {
     deleteeOrder
 } = require('../controllers/orderController');
 
-router.route('/order').post(isAuthenticated, newOrder);
+router.route('/order/new').post(isAuthenticated, newOrder);
 
 router.route('/order/:id').get(isAuthenticated, getSingleOrder);
 

@@ -15,12 +15,6 @@ const Header = () => {
     const { loading, user, error } = useSelector((state) => state.auth);
     const { totalItems } = useSelector((state) => state.cart);
 
-    useEffect(() => {
-        if (error) {
-            alert.error(error);
-        }
-    }, [error, alert]);
-
     // useEffect(() => {
     //     cartquatity.current = cartItems.reduce(
     //         (acc, item) => item.quantity + acc,
@@ -55,6 +49,9 @@ const Header = () => {
                 </div>
 
                 <div className="col-12 col-md-3 mt-4 mt-md-0 text-center">
+                    <Link to="/me" className="dropdown-item">
+                        Profile
+                    </Link>
                     <Link to="/cart">
                         <span id="cart" className="ml-3">
                             Cart

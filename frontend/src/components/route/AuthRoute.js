@@ -1,21 +1,24 @@
 import { Route, Redirect } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import { useLocation } from 'react-router-dom'
 
 const AuthRoute = ({ component: Component, ...rest }) => {
-    const { isAuthenticated, loading } = useSelector((state) => state.auth);
+    const { isAuthenticated } = useSelector((state) => state.auth);
+    const location = useLocation()
     return (
         <>
-            {loading === false && (
-                <Route
-                    {...rest}
-                    render={(props) => {
-                        if (isAuthenticated === true) {
-                            return <Redirect to="/" />;
+            <Route
+                {...rest}
+                render={(props) => {
+                    if (isAuthenticated === true) {
+                        if (location.search) {
+                            return <Redirect to={location.search.split('=')[1]} />
                         }
-                        return <Component {...props} />;
-                    }}
-                />
-            )}
+                        return <Redirect to="/" />;
+                    }
+                    return <Component {...props} />;
+                }}
+            />
         </>
     );
 };

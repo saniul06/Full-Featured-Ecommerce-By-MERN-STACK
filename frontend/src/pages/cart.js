@@ -6,7 +6,7 @@ import Loader from '../components/layouts/Loader'
 import { useAlert } from 'react-alert'
 import { updateCart } from '../actions/cartActions'
 
-const Cart = () => {
+const Cart = ({ history }) => {
 
     const alert = useAlert()
     const dispatch = useDispatch()
@@ -14,7 +14,7 @@ const Cart = () => {
     const { cartItems } = useSelector(state => state.cart)
 
     const increase = (id, stock) => {
-        const item = cartItems.find(i => i._id === id)
+        const item = cartItems.find(i => i.productId === id)
         if (item.quantity < item.stock) {
             item.quantity = item.quantity + 1
             dispatch(updateCart(cartItems))
@@ -22,7 +22,7 @@ const Cart = () => {
     }
 
     const decrease = id => {
-        const item = cartItems.find(i => i._id === id)
+        const item = cartItems.find(i => i.productId === id)
         if (item.quantity > 1) {
             item.quantity = item.quantity - 1
             dispatch(updateCart(cartItems))
@@ -30,8 +30,12 @@ const Cart = () => {
     }
 
     const deleteItem = id => {
-        const updatedCartItems = cartItems.filter(i => i._id !== id)
+        const updatedCartItems = cartItems.filter(i => i.productId !== id)
         dispatch(updateCart(updatedCartItems))
+    }
+
+    const handleCheckout = () => {
+        history.push('/login?redirect=shipping')
     }
 
     return (
@@ -47,14 +51,14 @@ const Cart = () => {
                             <div className="col-12 col-lg-8">
                                 {
                                     cartItems.map(product => (
-                                        <div key={product._id} className="cart-item">
+                                        <div key={product.productId} className="cart-item">
                                             <div className="row">
                                                 <div className="col-4 col-lg-3">
                                                     <img src={product.image} alt="Laptop" height="90" width="115" />
                                                 </div>
 
                                                 <div className="col-5 col-lg-3">
-                                                    <Link to={`/product/${product._id}`}>{product.name}</Link>
+                                                    <Link to={`/product/${product.productId}`}>{product.name}</Link>
                                                 </div>
 
 
@@ -64,14 +68,14 @@ const Cart = () => {
 
                                                 <div className="col-4 col-lg-3 mt-4 mt-lg-0">
                                                     <div className="stockCounter d-inline">
-                                                        <span onClick={() => decrease(product._id)} className="btn btn-danger minus">-</span>
+                                                        <span onClick={() => decrease(product.productId)} className="btn btn-danger minus">-</span>
                                                         <input type="number" className="form-control count d-inline" value={product.quantity} readOnly />
 
-                                                        <span onClick={() => increase(product._id)} className="btn btn-primary plus">+</span>
+                                                        <span onClick={() => increase(product.productId)} className="btn btn-primary plus">+</span>
                                                     </div>
                                                 </div>
 
-                                                <div onClick={() => deleteItem(product._id)} className="col-4 col-lg-1 mt-4 mt-lg-0">
+                                                <div onClick={() => deleteItem(product.productId)} className="col-4 col-lg-1 mt-4 mt-lg-0">
                                                     <i id="delete_cart_item" className="fa fa-trash btn btn-danger"></i>
                                                 </div>
 
@@ -91,7 +95,7 @@ const Cart = () => {
                                     <p>Est. total: <span className="order-summary-values">${cartItems.reduce((acc, item) => (item.price * item.quantity) + acc, 0).toFixed(2)}</span></p>
 
                                     <hr />
-                                    <button id="checkout_btn" className="btn btn-primary btn-block">Check out</button>
+                                    <button onClick={handleCheckout} id="checkout_btn" className="btn btn-primary btn-block">Check out</button>
                                 </div>
                             </div>
                         </div>

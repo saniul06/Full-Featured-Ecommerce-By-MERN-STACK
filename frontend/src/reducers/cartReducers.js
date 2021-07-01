@@ -1,15 +1,19 @@
-import { ADD_TO_CART, UPDATECART, CLEAR_ERRORS, TOTAL_ITEM, CLEAR_MESSAGES } from '../actions/actionTypes'
+import { ADD_TO_CART, UPDATECART, CLEAR_ERRORS, TOTAL_ITEM, CLEAR_MESSAGES, SAVE_SHIPPING_INFO } from '../actions/actionTypes'
+
+const cartItems = localStorage.getItem('cartItems')
+const shippingInfo = localStorage.getItem('shippingInfo')
 
 const init = {
-    cartItems: localStorage.getItem('Cart-Items') ? JSON.parse(localStorage.getItem('Cart-Items')) : [],
-    totalItems: localStorage.getItem('Cart-Items') ? JSON.parse(localStorage.getItem('Cart-Items')).reduce((acc, item) => item.quantity + acc, 0) : 0
+    cartItems: cartItems ? JSON.parse(cartItems) : [],
+    totalItems: cartItems ? JSON.parse(cartItems).reduce((acc, item) => item.quantity + acc, 0) : 0,
+    shippingInfo: shippingInfo ? JSON.parse(shippingInfo) : {}
 }
 
 export const cartReducer = (state = init, action) => {
     switch (action.type) {
         case ADD_TO_CART:
             const item = action.payload
-            const isItemExists = state.cartItems.find(i => i._id === item._id)
+            const isItemExists = state.cartItems.find(i => i.productId === item.productId)
             if (isItemExists) {
                 return {
                     ...state,
@@ -35,6 +39,12 @@ export const cartReducer = (state = init, action) => {
                 totalItems: state.cartItems.reduce((acc, item) => item.quantity + acc, 0),
             }
         }
+
+        case SAVE_SHIPPING_INFO:
+            return {
+                ...state,
+                shippingInfo: action.payload
+            }
 
         case CLEAR_ERRORS:
             return {

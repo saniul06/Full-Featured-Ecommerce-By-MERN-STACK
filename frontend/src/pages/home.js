@@ -31,6 +31,7 @@ const Home = ({ match }) => {
         'Outdoor',
         'Home'
     ];
+
     const keyword = match.params.keyword;
 
     const setCurrentPageNo = (pageNumber) => {
@@ -39,7 +40,7 @@ const Home = ({ match }) => {
 
     const dispatch = useDispatch();
 
-    const { products, totalProduct, error, loading, itemsPerPage, count } =
+    const { products, error, loading, itemsPerPage, count } =
         useSelector((state) => state.allProducts);
 
     const alert = useAlert();
