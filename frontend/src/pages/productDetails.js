@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react'
+import ProductReview from '../components/product/ProductReview'
 import Loader from '../components/layouts/Loader'
 import MetaData from '../components/layouts/MetaData'
 import { Carousel } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { useAlert } from 'react-alert'
-import { getSingleProduct, clearErrors } from '../actions/productActions'
+import { getSingleProduct, clearErrors, clearMessages, newReview } from '../actions/productActions'
 import { addToCart, clearCartErrors, clearCartMessages } from '../actions/cartActions'
 
 
@@ -12,37 +13,40 @@ import { addToCart, clearCartErrors, clearCartMessages } from '../actions/cartAc
 const ProductDetails = ({ match }) => {
 
     const [quantity, setQuantity] = useState(1)
+    const [rating, setRating] = useState(0)
+    const [review, setReview] = useState('')
 
-    const { product, loading, error, message } = useSelector(state => state.singleProduct)
-
-    const { cartError, cartMessage } = useSelector(state => state.cart)
-
-
+    const { error: productError, product, loading } = useSelector(state => state.singleProduct)
+    const { error: reviewError, message: reviewMessage } = useSelector(state => state.newReview)
+    const { error: cartError, message: cartMessage } = useSelector(state => state.cart)
+    const { isAuthenticated } = useSelector(state => state.auth)
 
     const dispatch = useDispatch()
     const alert = useAlert()
 
     useEffect(() => {
         dispatch(getSingleProduct(match.params.id))
-    }, [dispatch, match.params.id])
-
-    useEffect(() => {
-        if (error) {
+        if (productError || reviewError) {
+            alert.error(productError)
             dispatch(clearErrors())
-            alert.error(error)
         }
 
         if (cartError) {
-            dispatch(clearCartErrors())
             alert.error(cartError)
+            dispatch(clearCartErrors())
         }
 
         if (cartMessage) {
-            dispatch(clearCartMessages())
             alert.success(cartMessage)
+            dispatch(clearCartMessages())
         }
 
-    }, [dispatch, alert, error, message, cartError, cartMessage])
+        if (reviewMessage) {
+            alert.success(reviewMessage)
+            dispatch(clearMessages())
+        }
+
+    }, [dispatch, alert, productError, cartError, cartMessage, reviewError, reviewMessage, match.params.id])
 
     const increaseQty = () => {
         if (quantity < product.stock) {
@@ -58,6 +62,68 @@ const ProductDetails = ({ match }) => {
 
     const setCart = () => {
         dispatch(addToCart(product, quantity))
+    }
+
+    function setRatings() {
+        const stars = document.querySelectorAll('.star')
+        stars.forEach((star, index) => {
+            star.starValue = index + 1;
+            ['click', 'mouseover', 'mouseout'].forEach(function (e) {
+                star.addEventListener(e, function (event) {
+                    stars.forEach((s, index) => {
+                        if (event.type === 'click') {
+                            if (index < star.starValue) {
+                                s.classList.add('orange')
+                                setRating(star.starValue)
+                            } else {
+                                s.classList.remove('orange')
+                            }
+                        }
+                        if (event.type === 'mouseover') {
+                            if (index < this.starValue) {
+                                s.classList.add('yellow')
+                            } else {
+                                s.classList.remove('yellow')
+                            }
+                        }
+                        if (event.type === 'mouseout') {
+                            if (index < this.starValue) {
+                                s.classList.remove('yellow')
+                            }
+                        }
+                    })
+                })
+            })
+        })
+
+        // function showRatings(event) {
+        //     stars.forEach((star, index) => {
+        //         if (event.type === 'click') {
+        //             if (index < this.starValue) {
+        //                 star.classList.add('orange')
+        //             } else {
+        //                 star.classList.remove('orange')
+        //             }
+        //         }
+        //         if (event.type === 'mouseover') {
+        //             if (index < this.starValue) {
+        //                 star.classList.add('yellow')
+        //             } else {
+        //                 star.classList.remove('yellow')
+        //             }
+        //         }
+        //         if (event.type === 'mouseout') {
+        //             if (index < this.starValue) {
+        //                 star.classList.remove('yellow')
+        //             }
+        //         }
+        //     })
+        // }
+    }
+
+    const handleSubmit = () => {
+        dispatch(newReview({ rating, comment: review, productId: match.params.id }))
+
     }
 
     return (
@@ -84,13 +150,7 @@ const ProductDetails = ({ match }) => {
 
                                 <hr />
 
-                                <div className="rating-outer">
-                                    <div
-                                        className="rating-inner"
-                                        style={{
-                                            width: `${(product.ratings * 100) / 5}%`
-                                        }}></div>
-                                </div>
+                                <ProductReview ratings={product.ratings} />
                                 <span id="no_of_reviews">({product.numberOfReviews} Reviews)</span>
 
                                 <hr />
@@ -116,10 +176,16 @@ const ProductDetails = ({ match }) => {
                                 <hr />
                                 <p id="product_seller mb-3">Sold by: <strong>{product.seller}</strong></p>
 
-                                <button id="review_btn" type="button" className="btn btn-primary mt-4" data-toggle="modal"
-                                    data-target="#ratingModal">
-                                    Submit Your Review
-                                </button>
+                                {isAuthenticated ? (
+                                    <button onClick={setRatings} id="review_btn" type="button" className="btn btn-primary mt-4" data-toggle="modal"
+                                        data-target="#ratingModal">
+                                        Submit Your Review
+                                    </button>
+                                ) : (
+                                    <div className="alert alert-danger mt-5">
+                                        Login to write your review
+                                    </div>
+                                )}
 
                                 <div className="row mt-2 mb-5">
                                     <div className="rating w-50">
@@ -144,11 +210,11 @@ const ProductDetails = ({ match }) => {
                                                             <li className="star"><i className="fa fa-star"></i></li>
                                                         </ul>
 
-                                                        <textarea name="review" id="review" className="form-control mt-3">
+                                                        <textarea value={review} onChange={(e) => setReview(e.target.value)} name="review" id="review" className="form-control mt-3">
 
                                                         </textarea>
 
-                                                        <button className="btn my-3 float-right review-btn px-4 text-white"
+                                                        <button onClick={handleSubmit} className="btn my-3 float-right review-btn px-4 text-white"
                                                             data-dismiss="modal" aria-label="Close">Submit</button>
                                                     </div>
                                                 </div>
@@ -161,6 +227,20 @@ const ProductDetails = ({ match }) => {
 
                             </div>
                         </div>
+                        <h3>Reviews:</h3>
+                        {product.reviews && product.reviews.length > 0 ? product.reviews.map(review =>
+                            <div className="reviews w-75">
+
+                                <hr />
+                                <div className="review-card my-3">
+                                    <ProductReview ratings={product.ratings} />
+                                    <p className="review_user">by {review.name}</p>
+                                    <p className="review_comment">{review.comment}</p>
+
+                                    <hr />
+                                </div>
+                            </div>
+                        ) : <p>No reviews</p>}
                     </>
                 )
             }

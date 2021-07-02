@@ -7,7 +7,7 @@ exports.newOrder = asyncErrorHandler(async (req, res, next) => {
     const {
         orderItems,
         shippingInfo,
-        itemPrice,
+        itemsPrice,
         taxPrice,
         shippingPrice,
         totalPrice,
@@ -17,7 +17,7 @@ exports.newOrder = asyncErrorHandler(async (req, res, next) => {
     const order = await Order.create({
         orderItems,
         shippingInfo,
-        itemPrice,
+        itemsPrice,
         taxPrice,
         shippingPrice,
         totalPrice,

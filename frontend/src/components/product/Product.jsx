@@ -1,4 +1,4 @@
-import React from 'react';
+import ProductReview from './ProductReview';
 import { Link } from 'react-router-dom';
 
 const Product = ({ product, col }) => {
@@ -17,13 +17,7 @@ const Product = ({ product, col }) => {
                         </Link>
                     </h5>
                     <div className="ratings mt-auto">
-                        <div className="rating-outer">
-                            <div
-                                className="rating-inner"
-                                style={{
-                                    width: `${(product.ratings * 100) / 5}%`
-                                }}></div>
-                        </div>
+                        <ProductReview ratings={product.ratings} />
                         <span id="no_of_reviews">
                             ({product.numberOfReviews} Reviews)
                         </span>

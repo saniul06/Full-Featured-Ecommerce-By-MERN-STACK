@@ -5,7 +5,10 @@ import {
     SINGLE_PRODUCT_REQUEST,
     SINGLE_PRODUCT_SUCCESS,
     SINGLE_PRODUCT_FAIL,
-    ADD_TO_CART,
+    NEW_REVIEW_REQUEST,
+    NEW_REVIEW_SUCCESS,
+    NEW_REVIEW_RESET,
+    NEW_REVIEW_FAIL,
     CLEAR_ERRORS
 } from '../actions/actionTypes';
 
@@ -59,17 +62,56 @@ export const singleProductReducer = (state = {}, action) => {
         case SINGLE_PRODUCT_FAIL:
             return {
                 ...state,
+                laoding: false,
                 error: action.payload
             }
 
         case CLEAR_ERRORS:
             return {
                 ...state,
-                loading: false,
                 error: null
             }
 
         default:
             return state
+    }
+}
+
+export const newReviewReducer = (state = {}, action) => {
+    switch (action.type) {
+        case NEW_REVIEW_REQUEST:
+            return {
+                ...state,
+                loading: true
+            }
+
+        case NEW_REVIEW_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                message: action.payload
+
+            }
+
+        case NEW_REVIEW_RESET:
+            return {
+                ...state,
+                message: false
+            }
+
+        case NEW_REVIEW_FAIL:
+            return {
+                ...state,
+                loading: false,
+                error: action.payload
+            }
+
+        case CLEAR_ERRORS:
+            return {
+                ...state,
+                error: null
+            }
+
+        default: return state
     }
 }

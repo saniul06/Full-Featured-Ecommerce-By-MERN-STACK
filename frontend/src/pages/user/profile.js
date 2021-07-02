@@ -48,7 +48,7 @@ const Profile = () => {
                             <h4>Joined on</h4>
                             <p>{user && user.createdAt.substr(0, 10)}</p>
 
-                            {user && user.role !== 'admin' && (<Link to="/order/me" className="btn btn-danger btn-block mt-5">
+                            {user && user.role !== 'admin' && (<Link to="/orders/me" className="btn btn-danger btn-block mt-5">
                                 My Orders
                             </Link>)}
 

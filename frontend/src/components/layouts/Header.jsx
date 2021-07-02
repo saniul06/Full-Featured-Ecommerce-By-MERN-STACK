@@ -1,18 +1,13 @@
-import { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useAlert } from 'react-alert';
 import '../../App.css';
 import { Link } from 'react-router-dom';
 import Search from './Search';
 import { logout } from '../../actions/userActions';
 
 const Header = () => {
-    const cartquatity = useRef();
-
-    const alert = useAlert();
     const dispatch = useDispatch();
 
-    const { loading, user, error } = useSelector((state) => state.auth);
+    const { loading, user } = useSelector((state) => state.auth);
     const { totalItems } = useSelector((state) => state.cart);
 
     // useEffect(() => {
@@ -32,7 +27,7 @@ const Header = () => {
                 <div className="col-12 col-md-3">
                     <div className="navbar-brand">
                         <Link to="/">
-                            <img src="/images/logo.png" />
+                            <img src="/images/logo.png" alt="logo" />
                         </Link>
                     </div>
                 </div>
@@ -49,9 +44,6 @@ const Header = () => {
                 </div>
 
                 <div className="col-12 col-md-3 mt-4 mt-md-0 text-center">
-                    <Link to="/me" className="dropdown-item">
-                        Profile
-                    </Link>
                     <Link to="/cart">
                         <span id="cart" className="ml-3">
                             Cart
@@ -82,13 +74,7 @@ const Header = () => {
                             <div
                                 className="dropdown-menu"
                                 aria-labelledby="dropDownMenuButton">
-                                {user && user.role !== 'admin' ? (
-                                    <Link
-                                        to="/order/me"
-                                        className="dropdown-item">
-                                        Orders
-                                    </Link>
-                                ) : (
+                                {user && user.role === 'admin' && (
                                     <Link
                                         to="/dashboard"
                                         className="dropdown-item">
@@ -97,6 +83,9 @@ const Header = () => {
                                 )}
                                 <Link to="/me" className="dropdown-item">
                                     Profile
+                                </Link>
+                                <Link to="/orders/me" className="dropdown-item">
+                                    Orders
                                 </Link>
                                 <Link
                                     to="/"

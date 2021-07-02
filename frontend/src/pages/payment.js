@@ -5,8 +5,8 @@ import axios from 'axios'
 import { useAlert } from 'react-alert'
 import MetaData from "../components/layouts/MetaData"
 import CheckoutSteps from '../components/layouts/CheckoutSteps'
-import { createNewOrder, clearErrors, clearMessages } from '../actions/orderActions'
-import Error from '../components/layouts/ErrorBoundary'
+import { createNewOrder, clearErrors } from '../actions/orderActions'
+import { clearCart } from '../actions/cartActions'
 import { useHistory } from 'react-router-dom'
 
 const options = {
@@ -42,8 +42,6 @@ const Payment = () => {
             alert.error(error)
             dispatch(clearErrors())
         }
-
-
     }, [error, dispatch, alert])
 
     if (!cartItems || !shippingInfo || !orderInfo) {
@@ -57,7 +55,7 @@ const Payment = () => {
     }
 
     if (orderInfo) {
-        order.itemPrice = orderInfo.itemPrice
+        order.itemsPrice = orderInfo.itemsPrice
         order.shippingPrice = orderInfo.shippingPrice
         order.taxPrice = orderInfo.taxPrice
         order.totalPrice = orderInfo.totalPrice
@@ -107,13 +105,14 @@ const Payment = () => {
                         shippingInfo,
                         orderItems: cartItems,
                         totalPrice: orderInfo.totalPrice,
-                        itemPrice: orderInfo.itemPrice,
+                        itemsPrice: orderInfo.itemsPrice,
                         taxPrice: orderInfo.taxPrice,
                         shippingPrice: orderInfo.shippingPrice,
                         paymentInfo: paymentInfo,
                     }
 
                     dispatch(createNewOrder(order))
+                    dispatch(clearCart())
                     history.push('/success')
 
                 } else {
@@ -164,7 +163,6 @@ const Payment = () => {
                             />
                         </div>
 
-
                         <button
                             id="pay_btn"
                             type="submit"
@@ -181,19 +179,4 @@ const Payment = () => {
     )
 }
 
-// import React from 'react'
-
-const EE = () => {
-    return (
-        <div>
-            <Error>
-                <Payment />
-            </Error>
-        </div>
-    )
-}
-
-export default EE
-
-
-// export default Payment
+export default Payment

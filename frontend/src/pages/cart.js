@@ -1,14 +1,11 @@
-import { useSate, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import MetaData from '../components/layouts/MetaData'
-import Loader from '../components/layouts/Loader'
-import { useAlert } from 'react-alert'
 import { updateCart } from '../actions/cartActions'
 
 const Cart = ({ history }) => {
 
-    const alert = useAlert()
+
     const dispatch = useDispatch()
 
     const { cartItems } = useSelector(state => state.cart)

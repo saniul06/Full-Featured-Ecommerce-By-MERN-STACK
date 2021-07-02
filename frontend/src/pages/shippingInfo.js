@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { countries } from 'countries-list';
 import MetaData from '../components/layouts/MetaData';

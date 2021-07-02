@@ -23,6 +23,8 @@ import ProtectedRoute from './components/route/ProtectedRoute'
 import AuthRoute from './components/route/AuthRoute'
 import Cart from './pages/cart'
 import OrderSuccess from './pages/orderSuccess'
+import ListOrders from './pages/order/listOrders'
+import OrderDetails from './pages/order/orderDetails'
 
 store.dispatch(loadUser())
 
@@ -56,6 +58,9 @@ function App() {
 					<ProtectedRoute path='/shipping' component={ShippingInfo} />
 					<ProtectedRoute path='/confirm/order' component={ConfirmOrder} />
 					<ProtectedRoute path='/success' component={OrderSuccess} />
+					<ProtectedRoute path='/orders/me' component={ListOrders} exact />
+					<ProtectedRoute path='/order/:id' component={OrderDetails} exact />
+
 					{stripeApiKey && (
 						<Elements stripe={loadStripe(stripeApiKey)}>
 							<ProtectedRoute path='/payment' component={Payment} />

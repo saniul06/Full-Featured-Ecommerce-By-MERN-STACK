@@ -24,7 +24,7 @@ router.route('/admin/products/:id')
     .delete(isAuthenticated, authorizeRoles('admin'), deleteSingleProduct)
 
 router.route('/review')
-    .post(isAuthenticated, createProductReview)
+    .put(isAuthenticated, createProductReview)
     .delete(isAuthenticated, deleteReview)
 
 router.route('/reviews').get(isAuthenticated, getProductReviews)

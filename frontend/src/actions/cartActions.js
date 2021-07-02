@@ -1,4 +1,12 @@
-import { ADD_TO_CART, UPDATECART, TOTAL_ITEM, CLEAR_ERRORS, CLEAR_MESSAGES, SAVE_SHIPPING_INFO } from './actionTypes'
+import {
+    ADD_TO_CART,
+    UPDATECART,
+    TOTAL_ITEM,
+    CLEAR_ERRORS,
+    CLEAR_MESSAGES,
+    SAVE_SHIPPING_INFO,
+    CLEAR_CART
+} from './actionTypes';
 
 export const addToCart = (product, quantity) => (dispatch, getState) => {
     dispatch({
@@ -11,21 +19,33 @@ export const addToCart = (product, quantity) => (dispatch, getState) => {
             stock: product.stock,
             quantity
         }
-    })
-    dispatch({ type: TOTAL_ITEM })
-    localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems))
-}
+    });
+    dispatch({ type: TOTAL_ITEM });
+    localStorage.setItem(
+        'cartItems',
+        JSON.stringify(getState().cart.cartItems)
+    );
+};
 
-export const updateCart = cartItems => (dispatch, getState) => {
-    dispatch({ type: UPDATECART, payload: cartItems })
-    dispatch({ type: TOTAL_ITEM })
-    localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems))
-}
+export const updateCart = (cartItems) => (dispatch, getState) => {
+    dispatch({ type: UPDATECART, payload: cartItems });
+    dispatch({ type: TOTAL_ITEM });
+    localStorage.setItem(
+        'cartItems',
+        JSON.stringify(getState().cart.cartItems)
+    );
+};
 
-export const saveShippingInfo = data => dispatch => {
-    dispatch({ type: SAVE_SHIPPING_INFO, payload: data })
-    localStorage.setItem('shippingInfo', JSON.stringify(data))
-}
+export const saveShippingInfo = (data) => (dispatch) => {
+    dispatch({ type: SAVE_SHIPPING_INFO, payload: data });
+    localStorage.setItem('shippingInfo', JSON.stringify(data));
+};
+
+export const clearCart = () => (dispatch) => {
+    dispatch({ type: CLEAR_CART });
+    localStorage.removeItem('cartItems');
+    sessionStorage.removeItem('orderInfo')
+};
 
 export const clearCartErrors = () => (dispatch) => {
     dispatch({ type: CLEAR_ERRORS });
