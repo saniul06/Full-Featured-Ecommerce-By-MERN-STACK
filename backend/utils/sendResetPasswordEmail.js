@@ -1,14 +1,22 @@
 const nodemailer = require('nodemailer')
 
 const sendResetPasswordEmail = async options => {
-    const transport = nodemailer.createTransport({
-        host: process.env.SMTP_HOST,
-        port: process.env.SMTP_PORT,
+    // const transport = nodemailer.createTransport({
+    //     host: process.env.SMTP_HOST,
+    //     port: process.env.SMTP_PORT,
+    //     auth: {
+    //         user: process.env.SMTP_USER,
+    //         pass: process.env.SMTP_PASSWORD
+    //     }
+    // })
+
+    var transport = nodemailer.createTransport({
+        service: 'gmail',
         auth: {
-            user: process.env.SMTP_USER,
-            pass: process.env.SMTP_PASSWORD
+            user: 'saniul428@gmail.com',
+            pass: 'asdfgqwert'
         }
-    })
+    });
 
     const message = {
         from: `${process.env.SMTP_FROM_NAME} <${process.env.SMTP_FROM_EMAIL}>`,

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useSelector } from 'react-redux'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { Elements } from '@stripe/react-stripe-js'
 import { loadStripe } from '@stripe/stripe-js'
@@ -26,6 +27,12 @@ import OrderSuccess from './pages/orderSuccess'
 import ListOrders from './pages/order/listOrders'
 import OrderDetails from './pages/order/orderDetails'
 
+// admin
+import Dashboard from './pages/admin/dashboard'
+import ProductsList from './pages/admin/productsList'
+import CreateProduct from './pages/admin/createProduct'
+import UpdateProduct from './pages/admin/updateProduct'
+
 store.dispatch(loadUser())
 
 function App() {
@@ -40,11 +47,13 @@ function App() {
 		getStripeApiKey()
 	})
 
+	const { user } = useSelector(state => state.auth)
+
 	return (
 		<Router>
 			<div className="App">
 				<Header />
-				<div className="container container-fluid">
+				<div className="container-fluid" style={{ minHeight: '600px' }}>
 					<Route path='/' component={Home} exact />
 					<Route path='/search/:keyword' component={Home} />
 					<Route path='/product/:id' component={ProductDetails} />
@@ -60,14 +69,19 @@ function App() {
 					<ProtectedRoute path='/success' component={OrderSuccess} />
 					<ProtectedRoute path='/orders/me' component={ListOrders} exact />
 					<ProtectedRoute path='/order/:id' component={OrderDetails} exact />
-
 					{stripeApiKey && (
 						<Elements stripe={loadStripe(stripeApiKey)}>
 							<ProtectedRoute path='/payment' component={Payment} />
 						</Elements>
 					)}
 					<Route path='/cart' component={Cart} />
+
+					<ProtectedRoute path='/dashboard' isAdmin component={Dashboard} exact />
+					<ProtectedRoute path='/admin/products' isAdmin component={ProductsList} exact />
+					<ProtectedRoute path='/admin/product' isAdmin component={CreateProduct} exact />
+					<ProtectedRoute path='/admin/product/:id' isAdmin component={UpdateProduct} exact />
 				</div>
+
 				<Footer />
 			</div>
 		</Router>

@@ -1,9 +1,7 @@
-import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
-const Search = () => {
+const Search = ({ keyword, setKeyword }) => {
     const history = useHistory();
-    const [keyword, setKeyword] = useState('');
 
     const handleSearch = (e) => {
         e.preventDefault();
@@ -12,8 +10,6 @@ const Search = () => {
         } else {
             history.push('/');
         }
-        e.target.reset();
-        setKeyword('');
     };
 
     return (

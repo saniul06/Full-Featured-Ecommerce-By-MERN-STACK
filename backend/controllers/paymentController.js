@@ -22,7 +22,6 @@ exports.processPayment = asyncErrorHandler(async (req, res, next) => {
 
 // send stripe api_key
 exports.sendStripeApiKey = asyncErrorHandler(async (req, res, next) => {
-    console.log('stripe key  :', process.env.STRIPE_API_KEY)
     res.status(200).json({
         stripteApiKey: process.env.STRIPE_API_KEY
     })

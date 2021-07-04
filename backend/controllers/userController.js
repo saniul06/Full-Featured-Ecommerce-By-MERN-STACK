@@ -13,6 +13,15 @@ exports.getUserProfile = asyncErrorHandler(async (req, res, next) => {
     })
 })
 
+exports.allUsers = asyncErrorHandler(async (req, res, next) => {
+    const users = await User.find({ role: 'user' })
+
+    res.status(200).json({
+        success: true,
+        users
+    })
+})
+
 exports.updatePassword = asyncErrorHandler(async (req, res, next) => {
 
     const { oldPassword, newPassword, confirmPassword } = req.body
@@ -78,7 +87,7 @@ exports.updateProfile = asyncErrorHandler(async (req, res, next) => {
             },
         }
     } else {
-        console.log('avatar donot exists')
+        console.log('avatar do not exists')
         var updatedUserData = {
             name,
             email

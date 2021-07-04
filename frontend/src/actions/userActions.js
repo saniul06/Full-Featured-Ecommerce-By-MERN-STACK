@@ -10,6 +10,9 @@ import {
     LOAD_USER_REQUEST,
     LOAD_USER_SUCCESS,
     LOAD_USER_FAIL,
+    ALL_USER_REQUEST,
+    ALL_USER_SUCCESS,
+    ALL_USER_FAIL,
     UPDATE_PROFILE_REQUEST,
     UPDATE_PROFILE_SUCCESS,
     UPDATE_PROFILE_FAIL,
@@ -58,9 +61,21 @@ export const loadUser = () => async dispatch => {
         dispatch({ type: LOAD_USER_SUCCESS, payload: data.user })
 
     } catch (err) {
-        console.log('here i am')
-        console.log(err.response.data)
         dispatch({ type: LOAD_USER_FAIL, payload: err.response.data.errorMessage })
+    }
+}
+
+export const getAllUsers = () => async dispatch => {
+
+    try {
+        dispatch({ type: ALL_USER_REQUEST })
+
+        const { data } = await axios.get(`/api/v1/admin/users`)
+
+        dispatch({ type: ALL_USER_SUCCESS, payload: data.users })
+
+    } catch (err) {
+        dispatch({ type: ALL_USER_FAIL, payload: err.response.data.errorMessage })
     }
 }
 

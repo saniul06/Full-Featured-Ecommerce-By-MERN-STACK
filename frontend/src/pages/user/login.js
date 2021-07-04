@@ -52,7 +52,7 @@ const Login = ({ location, history }) => {
                             LOGIN
                         </button>
 
-                        <Link to="/register" className="float-right mt-3">New User?</Link>
+                        <Link to="/register" style={{ fontSize: '18px' }} className="float-right mt-3 font-weight-bold text-info">New User ?</Link>
                     </form>
                 </div>
             </div>

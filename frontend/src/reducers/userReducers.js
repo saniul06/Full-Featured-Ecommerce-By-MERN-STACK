@@ -8,6 +8,9 @@ import {
     LOAD_USER_REQUEST,
     LOAD_USER_SUCCESS,
     LOAD_USER_FAIL,
+    ALL_USER_REQUEST,
+    ALL_USER_SUCCESS,
+    ALL_USER_FAIL,
     UPDATE_PROFILE_REQUEST,
     UPDATE_PROFILE_SUCCESS,
     UPDATE_PROFILE_FAIL,
@@ -132,6 +135,33 @@ export const userReducer = (state = {}, action) => {
             return {
                 ...state,
                 message: null,
+            }
+
+        default: return state
+    }
+}
+
+export const allUserReducer = (state = {}, action) => {
+    switch (action.type) {
+        case ALL_USER_REQUEST:
+            return {
+                loading: true
+            }
+        case ALL_USER_SUCCESS:
+            return {
+                loading: false,
+                users: action.payload
+            }
+        case ALL_USER_FAIL:
+            return {
+                loading: false,
+                error: action.payload
+            }
+
+        case CLEAR_ERRORS:
+            return {
+                ...state,
+                error: null
             }
 
         default: return state

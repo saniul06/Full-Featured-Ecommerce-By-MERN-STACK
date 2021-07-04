@@ -10,7 +10,7 @@ import store from './store'
 const options = {
   position: positions.BOTTOM_CENTER,
   transition: transitions.SCALE,
-  timeout: 2000
+  timeout: 3000
 }
 
 ReactDOM.render(

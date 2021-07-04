@@ -5,6 +5,9 @@ import {
     MY_ORDER_REQUEST,
     MY_ORDER_SUCCESS,
     MY_ORDER_FAIL,
+    ADMIN_ORDER_REQUEST,
+    ADMIN_ORDER_SUCCESS,
+    ADMIN_ORDER_FAIL,
     ORDER_DETAILS_REQUEST,
     ORDER_DETAILS_SUCCESS,
     ORDER_DETAILS_FAIL,
@@ -27,8 +30,16 @@ export const newOrderReducer = (state = {}, action) => {
                 loading: false,
             }
 
+        case ADMIN_ORDER_SUCCESS:
+            return {
+                loading: false,
+                orders: action.payload.orders,
+                totalAmount: action.payload.totalAmount
+            }
+
         case CREATE_ORDER_FAIL:
         case MY_ORDER_FAIL:
+        case ADMIN_ORDER_FAIL:
             return {
                 ...state,
                 loading: false,
@@ -58,6 +69,38 @@ export const myOrderReducer = (state = { orders: [] }, action) => {
                 ...state,
                 loading: false,
                 orders: action.payload
+            }
+
+        case MY_ORDER_FAIL:
+            return {
+                ...state,
+                loading: false,
+                error: action.payload
+            }
+
+        case CLEAR_ERRORS:
+            return {
+                ...state,
+                error: null
+            }
+
+        default: return state
+    }
+}
+
+export const adminOrderReducer = (state = { orders: [] }, action) => {
+    switch (action.type) {
+        case ADMIN_ORDER_REQUEST:
+            return {
+                ...state,
+                loading: true
+            }
+
+        case ADMIN_ORDER_SUCCESS:
+            return {
+                loading: false,
+                orders: action.payload.orders,
+                totalAmount: action.payload.totalAmount
             }
 
         case MY_ORDER_FAIL:

@@ -627,13 +627,3 @@ ul.CTAs a {
 ul.pl-0 li:hover {
     background: #f0efe8;
 }
-
-.not-found {
-    font-size: 56px;
-    width: 500px;
-    position: absolute;
-    left: 50%;
-    top: 40%;
-    margin-left: -250px;
-    color: rgb(82, 71, 71);
-}

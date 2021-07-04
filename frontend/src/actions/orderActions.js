@@ -6,6 +6,9 @@ import {
     MY_ORDER_REQUEST,
     MY_ORDER_SUCCESS,
     MY_ORDER_FAIL,
+    ADMIN_ORDER_REQUEST,
+    ADMIN_ORDER_SUCCESS,
+    ADMIN_ORDER_FAIL,
     ORDER_DETAILS_REQUEST,
     ORDER_DETAILS_SUCCESS,
     ORDER_DETAILS_FAIL,
@@ -37,6 +40,17 @@ export const myOrders = () => async dispatch => {
     } catch (err) {
         console.log(err)
         dispatch({ type: MY_ORDER_FAIL, payload: err.response.data.errorMessage })
+    }
+}
+
+export const adminOrders = () => async dispatch => {
+    try {
+        dispatch({ type: ADMIN_ORDER_REQUEST })
+        const { data } = await axios.get('/api/v1/admin/orders')
+        dispatch({ type: ADMIN_ORDER_SUCCESS, payload: data })
+    } catch (err) {
+        console.log(err)
+        dispatch({ type: ADMIN_ORDER_FAIL, payload: err.response.data.errorMessage })
     }
 }
 

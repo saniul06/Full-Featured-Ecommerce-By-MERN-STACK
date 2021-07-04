@@ -1,5 +1,6 @@
 const {
     getAllProducts,
+    getAdminProducts,
     createNewProduct,
     getSingleProduct,
     updateSingleProduct,
@@ -15,11 +16,13 @@ const router = require('express').Router()
 
 router.route('/products').get(getAllProducts)
 
-router.route('/products/:id').get(getSingleProduct)
+router.route('/admin/products').get(getAdminProducts)
 
-router.route('/admin/products').post(isAuthenticated, authorizeRoles('admin'), createNewProduct)
+router.route('/product/:id').get(getSingleProduct)
 
-router.route('/admin/products/:id')
+router.route('/admin/product/new').post(isAuthenticated, authorizeRoles('admin'), createNewProduct)
+
+router.route('/admin/product/:id')
     .put(isAuthenticated, authorizeRoles('admin'), updateSingleProduct)
     .delete(isAuthenticated, authorizeRoles('admin'), deleteSingleProduct)
 

@@ -10,7 +10,9 @@ import { addToCart, clearCartErrors, clearCartMessages } from '../actions/cartAc
 
 
 
-const ProductDetails = ({ match }) => {
+const ProductDetails = ({ match, history }) => {
+
+    const [showModal, setShowModal] = useState(false)
 
     const [quantity, setQuantity] = useState(1)
     const [rating, setRating] = useState(0)
@@ -26,6 +28,10 @@ const ProductDetails = ({ match }) => {
 
     useEffect(() => {
         dispatch(getSingleProduct(match.params.id))
+    }, [reviewMessage, match.params.id, dispatch])
+
+    useEffect(() => {
+
         if (productError || reviewError) {
             alert.error(productError)
             dispatch(clearErrors())
@@ -65,6 +71,7 @@ const ProductDetails = ({ match }) => {
     }
 
     function setRatings() {
+        setShowModal(true)
         const stars = document.querySelectorAll('.star')
         stars.forEach((star, index) => {
             star.starValue = index + 1;
@@ -122,14 +129,20 @@ const ProductDetails = ({ match }) => {
     }
 
     const handleSubmit = () => {
-        dispatch(newReview({ rating, comment: review, productId: match.params.id }))
+        // dispatch(newReview({ rating, comment: review, productId: match.params.id }))
+        const formData = new FormData();
 
+        formData.set('rating', rating);
+        formData.set('comment', review);
+        formData.set('productId', match.params.id);
+        dispatch(newReview(formData));
+        setShowModal(false)
     }
 
     return (
         <>
             {
-                loading ? <Loader /> : (product &&
+                loading ? <Loader /> : (product ?
                     <>
                         <MetaData title={product.name} />
                         <div className="row f-flex justify-content-around">
@@ -177,7 +190,7 @@ const ProductDetails = ({ match }) => {
                                 <p id="product_seller mb-3">Sold by: <strong>{product.seller}</strong></p>
 
                                 {isAuthenticated ? (
-                                    <button onClick={setRatings} id="review_btn" type="button" className="btn btn-primary mt-4" data-toggle="modal"
+                                    <button onClick={setRatings} id="review_btn" type="button" className="btn btn-primary mt-4 mb-5" data-toggle="modal"
                                         data-target="#ratingModal">
                                         Submit Your Review
                                     </button>
@@ -187,9 +200,8 @@ const ProductDetails = ({ match }) => {
                                     </div>
                                 )}
 
-                                <div className="row mt-2 mb-5">
+                                <div className="row mt-2 h" style={{ display: showModal ? 'block' : 'none' }}>
                                     <div className="rating w-50">
-
                                         <div className="modal fade" id="ratingModal" tabIndex="-1" role="dialog"
                                             aria-labelledby="ratingModalLabel" aria-hidden="true">
                                             <div className="modal-dialog" role="document">
@@ -227,22 +239,25 @@ const ProductDetails = ({ match }) => {
 
                             </div>
                         </div>
-                        <h3>Reviews:</h3>
-                        {product.reviews && product.reviews.length > 0 ? product.reviews.map(review =>
-                            <div className="reviews w-75">
-
-                                <hr />
-                                <div className="review-card my-3">
-                                    <ProductReview ratings={product.ratings} />
-                                    <p className="review_user">by {review.name}</p>
-                                    <p className="review_comment">{review.comment}</p>
+                        <div className="mx-5">
+                            <h3>Reviews:</h3>
+                            {product.reviews && product.reviews.length > 0 ? product.reviews.map(review =>
+                                <div key={review._id} className="reviews w-75">
 
                                     <hr />
+                                    <div className="review-card my-3">
+                                        <ProductReview ratings={review.rating} />
+                                        <p className="review_user">by {review.name}</p>
+                                        <p className="review_comment">{review.comment}</p>
+
+                                        <hr />
+                                    </div>
                                 </div>
-                            </div>
-                        ) : <p>No reviews</p>}
+                            ) : <p>No reviews</p>}
+                        </div>
+
                     </>
-                )
+                    : <h3 className='not-found'>404 not found</h3>)
             }
         </>
 

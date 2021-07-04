@@ -15,7 +15,7 @@ exports.registerUser = asyncErrorHandler(async (req, res, next) => {
     //     crop: 'scale'
     // })
 
-    if (!name || !email || !password) {
+    if (!name || !email || !password || !avatar) {
         return next(new ErrorHandler('Please fill the form', 400))
     }
 

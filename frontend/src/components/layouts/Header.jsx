@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import '../../App.css';
 import { Link } from 'react-router-dom';
@@ -5,6 +6,7 @@ import Search from './Search';
 import { logout } from '../../actions/userActions';
 
 const Header = () => {
+    const [keyword, setKeyword] = useState('');
     const dispatch = useDispatch();
 
     const { loading, user } = useSelector((state) => state.auth);
@@ -26,7 +28,7 @@ const Header = () => {
             <nav className="navbar row">
                 <div className="col-12 col-md-3">
                     <div className="navbar-brand">
-                        <Link to="/">
+                        <Link to="/" onClick={() => setKeyword('')}>
                             <img src="/images/logo.png" alt="logo" />
                         </Link>
                     </div>
@@ -40,7 +42,7 @@ const Header = () => {
                             />
                         )}
                     /> */}
-                    <Search />
+                    <Search keyword={keyword} setKeyword={setKeyword} />
                 </div>
 
                 <div className="col-12 col-md-3 mt-4 mt-md-0 text-center">

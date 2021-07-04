@@ -26,13 +26,14 @@ app.use(fileUpload())
 
 //import routes
 const products = require('./routes/productRoutes')
+const category = require('./routes/categoryRoutes')
 const auth = require('./routes/authRoutes')
 const user = require('./routes/userRoutes')
 const admin = require('./routes/adminRoutes')
 const order = require('./routes/orderRoutes')
 const payment = require('./routes/paymentRoutes')
 
-app.use('/api/v1', products, auth, user, admin, order, payment)
+app.use('/api/v1', products, category, auth, user, admin, order, payment)
 
 //handle errors
 app.use(errorMiddleware)
