@@ -13,8 +13,8 @@ const sendResetPasswordEmail = async options => {
     var transport = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-            user: 'saniul428@gmail.com',
-            pass: 'asdfgqwert'
+            user: process.env.GMAIL,
+            pass: process.env.GMAIL_PASSWORD
         }
     });
 
