@@ -3,7 +3,7 @@ This is a fully functional ecommerce web application that is developed by using 
 
 ### Env Variables
 
-Add your config variables values in the config.env file in backend/config folder as shown in the course.
+Add your config variables values in the config.env file in backend/config folder.
 
 ### Install Dependencies (Frontend)
 
