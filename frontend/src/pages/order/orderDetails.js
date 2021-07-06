@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { useAlert } from 'react-alert'
@@ -7,6 +7,8 @@ import Loader from '../../components/layouts/Loader'
 import { orderDetails, clearErrors } from '../../actions/orderActions'
 
 const OrderDetails = ({ match }) => {
+
+    const [stauts, setStatus] = useState('')
 
     const { loading, error, order } = useSelector(state => state.orderDetails)
     const { user } = useSelector(state => state.auth)

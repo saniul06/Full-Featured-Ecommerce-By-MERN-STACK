@@ -69,7 +69,7 @@ export const cartReducer = (state = init, action) => {
         case CLEAR_ERRORS:
             return {
                 ...state,
-                error: null
+                error: false
             };
 
         case CLEAR_MESSAGES:

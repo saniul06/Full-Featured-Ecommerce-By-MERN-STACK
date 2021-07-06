@@ -63,14 +63,14 @@ export const allProductReducer = (state = { products: [] }, action) => {
         case CLEAR_ERRORS:
             return {
                 ...state,
-                error: null
+                error: false
             }
 
         default: return state
     }
 }
 
-export const singleProductReducer = (state = {}, action) => {
+export const singleProductReducer = (state = { loading: true }, action) => {
     switch (action.type) {
         case SINGLE_PRODUCT_REQUEST:
             return {
@@ -98,7 +98,7 @@ export const singleProductReducer = (state = {}, action) => {
         case CLEAR_ERRORS:
             return {
                 ...state,
-                error: null
+                error: false
             }
 
         default:
@@ -139,7 +139,7 @@ export const newProductReducer = (state = {}, action) => {
         case CLEAR_ERRORS:
             return {
                 ...state,
-                error: null
+                error: false
             }
 
         default: return state
@@ -179,7 +179,7 @@ export const updateProductReducer = (state = {}, action) => {
         case CLEAR_ERRORS:
             return {
                 ...state,
-                error: null
+                error: false
             }
 
         default: return state
@@ -218,7 +218,7 @@ export const deleteProductReducer = (state = {}, action) => {
         case CLEAR_ERRORS:
             return {
                 ...state,
-                error: null
+                error: false
             }
 
         default: return state
@@ -257,7 +257,7 @@ export const newReviewReducer = (state = {}, action) => {
         case CLEAR_ERRORS:
             return {
                 ...state,
-                error: null
+                error: false
             }
 
         default: return state

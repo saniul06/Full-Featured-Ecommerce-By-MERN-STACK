@@ -1,13 +1,33 @@
 import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 import MetaData from '../../components/layouts/MetaData'
 import Loader from '../../components/layouts/Loader'
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 import { useAlert } from 'react-alert'
 import Sidebar from '../../components/admin/Sidebar'
 import { getSingleProduct, updateProduct, clearErrors } from '../../actions/productActions'
 import { UPDATE_PRODUCT_RESET } from '../../actions/actionTypes'
 
+
+import { makeStyles } from '@material-ui/core/styles';
+const useStyles = makeStyles((theme) => ({
+    root: {
+        display: 'flex',
+        '& > * + *': {
+            marginLeft: theme.spacing(2),
+            width: '10px',
+            height: '10px'
+        },
+    },
+}));
+
+
+
 const UpdateProduct = ({ match, history }) => {
+
+    const classes = useStyles();
 
     const categories = [
         'Electronics',
@@ -127,10 +147,10 @@ const UpdateProduct = ({ match, history }) => {
                     <Sidebar />
                 </div>
                 <div className="col-12 col-md-10">
-                    {loading || singleProductLoading ? <Loader /> : (productDetails ?
+                    {singleProductLoading ? <Loader /> : (productDetails ?
                         <div className="wrapper my-5">
                             <form onSubmit={handleSubmit} className="shadow-lg" encType='multipart/form-data'>
-                                <h1 className="mb-4">Update Product</h1>
+                                <h3 className="mb-4">Update Product</h3>
 
                                 <div className="form-group">
                                     <label htmlFor="name_field">Name</label>
@@ -179,10 +199,15 @@ const UpdateProduct = ({ match, history }) => {
 
                                 </div>
 
-                                <button disabled={loading ? true : false} id="login_button" type="submit" className="btn btn-block py-3">
-                                    Update
+                                <button disabled={loading ? true : false} id="login_button" type="submit" className={` btn btn-block py-3`}>
+                                    {loading ? <CircularProgress /> : 'Update'}
                                 </button>
-
+                                {/* <button disabled={loading ? true : false} id="login_button" type="submit" className="btn btn-block py-3">
+                                    Update
+                                </button> */}
+                                <Link to='/admin/products' type="submit" className="btn btn-block py-3" style={{ background: '#17A2B8' }}>
+                                    Back
+                                </Link>
                             </form>
                         </div>
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import ProductReview from '../components/product/ProductReview'
 import Loader from '../components/layouts/Loader'
 import MetaData from '../components/layouts/MetaData'
@@ -8,8 +8,6 @@ import { useAlert } from 'react-alert'
 import { getSingleProduct, clearErrors, clearMessages, newReview } from '../actions/productActions'
 import { addToCart, clearCartErrors, clearCartMessages } from '../actions/cartActions'
 
-
-
 const ProductDetails = ({ match, history }) => {
 
     const [showModal, setShowModal] = useState(false)
@@ -17,11 +15,12 @@ const ProductDetails = ({ match, history }) => {
     const [quantity, setQuantity] = useState(1)
     const [rating, setRating] = useState(0)
     const [review, setReview] = useState('')
+    let mereview = useRef({})
 
     const { error: productError, product, loading } = useSelector(state => state.singleProduct)
     const { error: reviewError, message: reviewMessage } = useSelector(state => state.newReview)
     const { error: cartError, message: cartMessage } = useSelector(state => state.cart)
-    const { isAuthenticated } = useSelector(state => state.auth)
+    const { isAuthenticated, user } = useSelector(state => state.auth)
 
     const dispatch = useDispatch()
     const alert = useAlert()
@@ -29,6 +28,17 @@ const ProductDetails = ({ match, history }) => {
     useEffect(() => {
         dispatch(getSingleProduct(match.params.id))
     }, [reviewMessage, match.params.id, dispatch])
+
+    useEffect(() => {
+        if (product) {
+            mereview.current = product ? product.reviews.find(item => item.user === user._id) : {}
+            console.log('user is: ', mereview.current)
+            if (mereview.current) {
+                setReview(mereview.current.comment)
+                setRating(mereview.current.rating)
+            }
+        }
+    }, [product])
 
     useEffect(() => {
 
@@ -215,11 +225,11 @@ const ProductDetails = ({ match, history }) => {
                                                     <div className="modal-body">
 
                                                         <ul className="stars">
-                                                            <li className="star"><i className="fa fa-star"></i></li>
-                                                            <li className="star"><i className="fa fa-star"></i></li>
-                                                            <li className="star"><i className="fa fa-star"></i></li>
-                                                            <li className="star"><i className="fa fa-star"></i></li>
-                                                            <li className="star"><i className="fa fa-star"></i></li>
+                                                            <li className={`star ${rating >= 1 && 'orange'}`}><i className="fa fa-star"></i></li>
+                                                            <li className={`star ${rating >= 2 && 'orange'}`}><i className="fa fa-star"></i></li>
+                                                            <li className={`star ${rating >= 3 && 'orange'}`}><i className="fa fa-star"></i></li>
+                                                            <li className={`star ${rating >= 4 && 'orange'}`}><i className="fa fa-star"></i></li>
+                                                            <li className={`star ${rating >= 5 && 'orange'}`}><i className="fa fa-star"></i></li>
                                                         </ul>
 
                                                         <textarea value={review} onChange={(e) => setReview(e.target.value)} name="review" id="review" className="form-control mt-3">

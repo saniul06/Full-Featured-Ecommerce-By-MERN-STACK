@@ -8,106 +8,119 @@ export const ADMIN_PRODUCTS_REQUEST = 'ADMIN_PRODUCTS_REQUEST'
 export const ADMIN_PRODUCTS_SUCCESS = 'ADMIN_PRODUCTS_SUCCESS'
 export const ADMIN_PRODUCTS_FAIL = 'ADMIN_PRODUCTS_FAIL'
 
-// single product
+// Single product
 export const SINGLE_PRODUCT_REQUEST = 'SINGLE_PRODUCT_REQUEST'
 export const SINGLE_PRODUCT_SUCCESS = 'SINGLE_PRODUCT_SUCCESS'
 export const SINGLE_PRODUCT_RESET = 'SINGLE_PRODUCT_RESET'
 export const SINGLE_PRODUCT_FAIL = 'SINGLE_PRODUCT_FAIL'
 
-// new product
+// New product
 export const NEW_PRODUCT_REQUEST = 'NEW_PRODUCT_REQUEST'
 export const NEW_PRODUCT_SUCCESS = 'NEW_PRODUCT_SUCCESS'
 export const NEW_PRODUCT_RESET = 'NEW_PRODUCT_RESET'
 export const NEW_PRODUCT_FAIL = 'NEW_PRODUCT_FAIL'
 
-// update product
+// Update product
 export const UPDATE_PRODUCT_REQUEST = 'UPDATE_PRODUCT_REQUEST'
 export const UPDATE_PRODUCT_SUCCESS = 'UPDATE_PRODUCT_SUCCESS'
 export const UPDATE_PRODUCT_RESET = 'UPDATE_PRODUCT_RESET'
 export const UPDATE_PRODUCT_FAIL = 'UPDATE_PRODUCT_FAIL'
 
-// delete product
+// Delete product
 export const DELETE_PRODUCT_REQUEST = 'DELETE_PRODUCT_REQUEST'
 export const DELETE_PRODUCT_SUCCESS = 'DELETE_PRODUCT_SUCCESS'
 export const DELETE_PRODUCT_RESET = 'DELETE_PRODUCT_RESET'
 export const DELETE_PRODUCT_FAIL = 'DELETE_PRODUCT_FAIL'
 
-// product review
+// Product review
 export const NEW_REVIEW_REQUEST = 'NEW_REVIEW_REQUEST'
 export const NEW_REVIEW_SUCCESS = 'NEW_REVIEW_SUCCESS'
 export const NEW_REVIEW_RESET = 'NEW_REVIEW_RESET'
 export const NEW_REVIEW_FAIL = 'NEW_REVIEW_FAIL'
 
-// login
+// Login
 export const LOGIN_REQUEST = 'LOGIN_REQUEST'
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
 export const LOGIN_FAIL = 'LOGIN_FAIL'
 
-// logout
+// Logout
 export const Logout_SUCCESS = 'Logout_SUCCESS'
 export const Logout_FAIL = 'Logout_FAIL'
 
-// register
+// Register
 export const REGISTER_REQUEST = 'REGISTER_REQUEST'
 export const REGISTER_SUCCESS = 'REGISTER_SUCCESS'
 export const REGISTER_FAIL = 'REGISTER_FAIL'
 
-// load user
+// Load user
 export const LOAD_USER_REQUEST = 'LOAD_USER_REQUEST'
 export const LOAD_USER_SUCCESS = 'LOAD_USER_SUCCESS'
 export const LOAD_USER_FAIL = 'LOAD_USER_FAIL'
 
-// all user
+// All user
 export const ALL_USER_REQUEST = 'ALL_USER_REQUEST'
 export const ALL_USER_SUCCESS = 'ALL_USER_SUCCESS'
 export const ALL_USER_FAIL = 'ALL_USER_FAIL'
 
-// update profile
+// Update profile
 export const UPDATE_PROFILE_REQUEST = 'UPDATE_PROFILE_REQUEST'
 export const UPDATE_PROFILE_SUCCESS = 'UPDATE_PROFILE_SUCCESS'
 export const UPDATE_PROFILE_FAIL = 'UPDATE_PROFILE_FAIL'
 
-// update password
+// Update password
 export const UPDATE_PASSWORD_REQUEST = 'UPDATE_PASSWORD_REQUEST'
 export const UPDATE_PASSWORD_SUCCESS = 'UPDATE_PASSWORD_SUCCESS'
 export const UPDATE_PASSWORD_FAIL = 'UPDATE_PASSWORD_FAIL'
 
-// forgot password
+// Forgot password
 export const FORGOT_PASSWORD_REQUEST = 'FORGOT_PASSWORD_REQUEST'
 export const FORGOT_PASSWORD_SUCCESS = 'FORGOT_PASSWORD_SUCCESS'
 export const FORGOT_PASSWORD_FAIL = 'FORGOT_PASSWORD_FAIL'
 
-// reset password
+// Reset password
 export const RESET_PASSWORD_REQUEST = 'RESET_PASSWORD_REQUEST'
 export const RESET_PASSWORD_SUCCESS = 'RESET_PASSWORD_SUCCESS'
 export const RESET_PASSWORD_FAIL = 'RESET_PASSWORD_FAIL'
 
-// cart
+// Cart
 export const ADD_TO_CART = 'ADD_TO_CART'
 export const UPDATECART = 'UPDATECART'
 export const TOTAL_ITEM = 'TOTAL_ITEM'
 export const CLEAR_CART = 'CLEAR_CART'
 export const SAVE_SHIPPING_INFO = 'SAVE_SHIPPING_INFO'
 
-// order
+// Order
 export const CREATE_ORDER_REQUEST = 'CREATE_ORDER_REQUEST'
 export const CREATE_ORDER_SUCCESS = 'CREATE_ORDER_SUCCESS'
 export const CREATE_ORDER_FAIL = 'CREATE_ORDER_FAIL'
 
-export const MY_ORDER_REQUEST = 'MY_ORDER_REQUEST'
-export const MY_ORDER_SUCCESS = 'MY_ORDER_SUCCESS'
-export const MY_ORDER_FAIL = 'MY_ORDER_FAIL'
+// Single order
+export const MY_ORDERS_REQUEST = 'MY_ORDERS_REQUEST'
+export const MY_ORDERS_SUCCESS = 'MY_ORDERS_SUCCESS'
+export const MY_ORDERS_FAIL = 'MY_ORDERS_FAIL'
 
-export const ADMIN_ORDER_REQUEST = 'ADMIN_ORDER_REQUEST'
-export const ADMIN_ORDER_SUCCESS = 'ADMIN_ORDER_SUCCESS'
-export const ADMIN_ORDER_FAIL = 'ADMIN_ORDER_FAIL'
+// All orer
+export const ALL_ORDERS_REQUEST = 'ALL_ORDERS_REQUEST'
+export const ALL_ORDERS_SUCCESS = 'ALL_ORDERS_SUCCESS'
+export const ALL_ORDERS_FAIL = 'ALL_ORDERS_FAIL'
 
+// Update order
+export const UPDATE_ORDER_REQUEST = 'UPDATE_ORDER_REQUEST'
+export const UPDATE_ORDER_SUCCESS = 'UPDATE_ORDER_SUCCESS'
+export const UPDATE_ORDER_FAIL = 'UPDATE_ORDER_FAIL'
+
+// Delete order
+export const DELETE_ORDER_REQUEST = 'DELETE_ORDER_REQUEST'
+export const DELETE_ORDER_SUCCESS = 'DELETE_ORDER_SUCCESS'
+export const DELETE_ORDER_FAIL = 'DELETE_ORDER_FAIL'
+
+// Get order details
 export const ORDER_DETAILS_REQUEST = 'ORDER_DETAILS_REQUEST'
 export const ORDER_DETAILS_SUCCESS = 'ORDER_DETAILS_SUCCESS'
 export const ORDER_DETAILS_FAIL = 'ORDER_DETAILS_FAIL'
 
-// clear message
+// Clear message
 export const CLEAR_MESSAGES = 'CLEAR_MESSAGES'
 
-// clear errors
+// Clear errors
 export const CLEAR_ERRORS = 'CLEAR_ERRORS'

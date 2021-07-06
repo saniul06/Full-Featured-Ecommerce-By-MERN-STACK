@@ -92,7 +92,6 @@ export const newProduct = product => async dispatch => {
 }
 
 export const updateProduct = (id, product) => async dispatch => {
-
     try {
         dispatch({ type: UPDATE_PRODUCT_REQUEST })
         const config = {

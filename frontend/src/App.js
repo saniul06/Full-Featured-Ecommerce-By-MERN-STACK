@@ -32,6 +32,8 @@ import Dashboard from './pages/admin/dashboard'
 import ProductsList from './pages/admin/productsList'
 import CreateProduct from './pages/admin/createProduct'
 import UpdateProduct from './pages/admin/updateProduct'
+import OrdersList from './pages/admin/ordersList'
+import ProcessOrder from './pages/admin/processOrder'
 
 store.dispatch(loadUser())
 
@@ -80,6 +82,8 @@ function App() {
 					<ProtectedRoute path='/admin/products' isAdmin component={ProductsList} exact />
 					<ProtectedRoute path='/admin/product' isAdmin component={CreateProduct} exact />
 					<ProtectedRoute path='/admin/product/:id' isAdmin component={UpdateProduct} exact />
+					<ProtectedRoute path='/admin/orders' isAdmin component={OrdersList} exact />
+					<ProtectedRoute path='/admin/order/:id' isAdmin component={ProcessOrder} exact />
 				</div>
 
 				<Footer />

@@ -85,7 +85,7 @@ export const authReducers = (state = { user: null, isAuthenticated: true }, acti
         case CLEAR_ERRORS:
             return {
                 ...state,
-                error: null
+                error: false
             }
 
         default: return state
@@ -128,7 +128,7 @@ export const userReducer = (state = {}, action) => {
         case CLEAR_ERRORS:
             return {
                 ...state,
-                error: null,
+                error: false,
             }
 
         case CLEAR_MESSAGES:
@@ -161,7 +161,7 @@ export const allUserReducer = (state = {}, action) => {
         case CLEAR_ERRORS:
             return {
                 ...state,
-                error: null
+                error: false
             }
 
         default: return state

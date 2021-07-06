@@ -83,12 +83,13 @@ exports.updateOrder = asyncErrorHandler(async (req, res, next) => {
         return next(new ErrorHandler(`No order found with this id :${req.params.id}`))
     }
 
-    if (order.orderStatus === 'delivered') {
-        return next(new ErrorHandler('This order is already delivered', 400))
-    }
+    // if (order.orderStatus === 'Delivered') {
+    //     return next(new ErrorHandler('This order is already delivered', 400))
+    // }
 
-    order.orderItems.forEach(async item => await updateStock(item.product, item.quantity, res))
-    order.orderStatus = req.body.orderStatus
+    order.orderItems.forEach(async item => await updateStock(item.productId, item.quantity, res, next))
+
+    order.orderStatus = req.body.status
     order.delivereddAt = Date.now()
     await order.save();
 
@@ -99,17 +100,18 @@ exports.updateOrder = asyncErrorHandler(async (req, res, next) => {
 
 })
 
-const updateStock = async (_id, quantity, res) => {
+const updateStock = async (_id, quantity, res, next) => {
     try {
         const product = await Product.findById(_id)
         product.stock = product.stock - quantity
         await product.save({ validateBeforeSave: false })
 
     } catch (err) {
-        return res.status(500).json({
-            succeess: false,
-            message: err.stack
-        })
+        // return res.status(500).json({
+        //     succeess: false,
+        //     message: err.stack
+        // })
+        return next(new ErrorHandler(err.stack, 400))
     }
 }
 
