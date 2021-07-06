@@ -20,7 +20,7 @@ npm i
 
 ### Seed Database
 
-You can find some dummy products in backend/data/product.json
+You can find some dummy products in backend/data/products.json
 
 ```
 npm run seeder
