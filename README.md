@@ -11,13 +11,6 @@ Add the values of config variables in the config.env file in backend/config fold
 npm i
 ```
 
-### Install Dependencies (Frontend)
-
-```
-cd frontend
-npm i
-```
-
 ### Seed Database
 
 
@@ -25,3 +18,9 @@ npm i
 npm run seeder
 ```
 
+### Install Dependencies (Frontend)
+
+```
+cd frontend
+npm i
+```
