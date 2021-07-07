@@ -10,14 +10,15 @@ import {
     ALL_ORDERS_FAIL,
     UPDATE_ORDER_REQUEST,
     UPDATE_ORDER_SUCCESS,
+    UPDATE_ORDER_RESET,
     UPDATE_ORDER_FAIL,
     DELETE_ORDER_REQUEST,
     DELETE_ORDER_SUCCESS,
+    DELETE_ORDER_RESET,
     DELETE_ORDER_FAIL,
     ORDER_DETAILS_REQUEST,
     ORDER_DETAILS_SUCCESS,
     ORDER_DETAILS_FAIL,
-    CLEAR_MESSAGES,
     CLEAR_ERRORS
 } from '../actions/actionTypes';
 
@@ -117,6 +118,7 @@ export const orderDetailsReducer = (state = { order: {}, loading: true }, action
     switch (action.type) {
         case ORDER_DETAILS_REQUEST:
             return {
+                ...state,
                 loading: true
             }
 
@@ -128,6 +130,7 @@ export const orderDetailsReducer = (state = { order: {}, loading: true }, action
 
         case ORDER_DETAILS_FAIL:
             return {
+                ...state,
                 loading: false,
                 error: action.payload
             }
@@ -161,7 +164,7 @@ export const updateOrderReducer = (state = {}, action) => {
                 error: action.payload
             }
 
-        case CLEAR_MESSAGES:
+        case UPDATE_ORDER_RESET:
             return {
                 ...state,
                 message: false
@@ -196,7 +199,7 @@ export const deleteOrderReducer = (state = {}, action) => {
                 error: action.payload
             }
 
-        case CLEAR_MESSAGES:
+        case DELETE_ORDER_RESET:
             return {
                 ...state,
                 message: false

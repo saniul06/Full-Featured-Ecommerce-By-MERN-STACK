@@ -1,5 +1,3 @@
-
-
 const asyncErrorHandler = require('../middlewares/asyncErrorHandler')
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
 console.log('paymentController: ', process.env.STRIPE_API_KEY)

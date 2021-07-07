@@ -30,6 +30,7 @@ export const getAllProducts = (currentPage = 1, keyword = '', price, category = 
     try {
 
         if (category || ratings || price.toString() === [1.1000].toString()) currentPage = 1
+
         let url = `/api/v1/products?page=${currentPage}&keyword=${keyword}&price[lte]=${price[1]}&price[gte]=${price[0]}&ratings[gte]=${ratings}`
 
         if (category) {

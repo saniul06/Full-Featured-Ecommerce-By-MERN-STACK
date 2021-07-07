@@ -74,8 +74,8 @@ export const singleProductReducer = (state = { loading: true }, action) => {
     switch (action.type) {
         case SINGLE_PRODUCT_REQUEST:
             return {
+                ...state,
                 loading: true,
-                ...state
             }
 
         case SINGLE_PRODUCT_SUCCESS:

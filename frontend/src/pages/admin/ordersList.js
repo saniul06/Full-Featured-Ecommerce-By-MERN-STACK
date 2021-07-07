@@ -6,8 +6,7 @@ import { MDBDataTable } from 'mdbreact'
 import MetaData from '../../components/layouts/MetaData'
 import Loader from '../../components/layouts/Loader'
 import Sidebar from '../../components/admin/Sidebar'
-import { allOrders, clearErrors, deleteOrder } from '../../actions/orderActions'
-import { DELETE_PRODUCT_RESET, SINGLE_PRODUCT_RESET } from '../../actions/actionTypes'
+import { allOrders, clearErrors, deleteOrder, clearMessages } from '../../actions/orderActions'
 
 const OrdersList = () => {
 
@@ -15,30 +14,32 @@ const OrdersList = () => {
     const dispatch = useDispatch()
 
     const { loading, orders, error } = useSelector(state => state.allOrders)
-    // const { error: deleteProductError, message } = useSelector(state => state.deleteProduct)
+    const { error: deleteOrderError, message } = useSelector(state => state.deleteOrder)
 
 
     useEffect(() => {
         dispatch(allOrders())
-    }, [])
+    }, [message, dispatch])
 
     useEffect(() => {
-
-        // dispatch({ type: SINGLE_PRODUCT_RESET })
         if (error) {
             alert.error(error)
             dispatch(clearErrors())
         }
-        // if (deleteProductError) {
-        //     alert.error(deleteProductError)
-        //     dispatch(clearErrors())
-        // }
-        // if (message) {
-        //     alert.success(message)
-        //     dispatch({ type: DELETE_PRODUCT_RESET })
-        // }
+        if (deleteOrderError) {
+            alert.error(deleteOrderError)
+            dispatch(clearErrors())
+        }
+        if (message) {
+            alert.success(message)
+            dispatch(clearMessages())
+        }
 
-    }, [dispatch, error, alert])
+    }, [dispatch, error, alert, deleteOrderError, message])
+
+    const handleDelete = id => {
+        dispatch(deleteOrder(id))
+    }
 
     const setOrders = () => {
         const data = {
@@ -91,10 +92,6 @@ const OrdersList = () => {
             )
         }))
         return data
-    }
-
-    const handleDelete = id => {
-        // dispatch(deleteProduct(id))
     }
 
     return (

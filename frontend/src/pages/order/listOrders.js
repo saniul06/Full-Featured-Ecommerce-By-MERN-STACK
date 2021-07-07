@@ -46,8 +46,8 @@ const ListOrders = () => {
                     sort: 'asc',
                 },
                 {
-                    label: 'Action',
-                    field: 'action',
+                    label: 'View',
+                    field: 'view',
                     sort: 'asc',
                 },
             ],
@@ -59,7 +59,7 @@ const ListOrders = () => {
             numOfItems: order.orderItems.length,
             amount: `$${order.totalPrice}`,
             status: order.orderStatus.includes('processing') ? <p className="text-danger font-weight-bold">{order.orderStatus}</p> : <p className="text-success font-weight-bold">{order.orderStatus}</p>,
-            action: <Link to={`/order/${order._id}`} className='btn btn-primary'><i className="fa fa-eye" aria-hidden="true"></i></Link>
+            view: <Link to={`/order/${order._id}`} className='btn btn-primary'><i className="fa fa-eye" aria-hidden="true"></i></Link>
         }))
         return data
     }

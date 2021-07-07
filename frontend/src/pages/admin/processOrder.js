@@ -6,7 +6,7 @@ import MetaData from '../../components/layouts/MetaData'
 import Loader from '../../components/layouts/Loader'
 import Sidebar from '../../components/admin/Sidebar'
 import { orderDetails, updateOrder, clearErrors, clearMessages } from '../../actions/orderActions'
-import { UPDATE_ORDER_RESET } from '../../actions/actionTypes'
+import { UPDATE_ORDER_RESET, DELETE_ORDER_RESET } from '../../actions/actionTypes'
 
 const ProcessOrder = ({ match }) => {
 
@@ -15,26 +15,26 @@ const ProcessOrder = ({ match }) => {
     const alert = useAlert()
     const dispatch = useDispatch()
 
-    const { loading: orderDetailsLoading, order = {}, error: orderDetailsError } = useSelector(state => state.orderDetails)
+    const { loading: orderDetailsLoading, order, error: orderDetailsError } = useSelector(state => state.orderDetails)
     const { _id, shippingInfo, orderItems, paymentInfo, totalPrice, orderStatus, user } = order
     const { loading: updateloading, error: updateOrderError, message: updateOrdermessage } = useSelector(state => state.updateOrder)
 
     useEffect(() => {
         dispatch(orderDetails(match.params.id))
-    }, [match.params.id, dispatch, updateOrdermessage])
+    }, [])
 
     useEffect(() => {
         if (orderDetailsError) {
-            alert.success(orderDetailsError)
+            alert.error(orderDetailsError)
             dispatch(clearMessages())
         }
         if (updateOrdermessage) {
             alert.success(updateOrdermessage)
-            dispatch(clearMessages())
+            dispatch({ type: UPDATE_ORDER_RESET })
         }
         if (updateOrderError) {
             alert.error(updateOrderError)
-            dispatch(clearErrors())
+            dispatch({ type: DELETE_ORDER_RESET })
         }
     }, [updateOrdermessage, orderDetailsError, updateOrderError, dispatch, alert])
 

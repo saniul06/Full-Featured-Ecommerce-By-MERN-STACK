@@ -87,6 +87,17 @@ export const updateOrder = (id, status) => async dispatch => {
     }
 }
 
+export const deleteOrder = id => async dispatch => {
+    try {
+        dispatch({ type: DELETE_ORDER_REQUEST })
+        const { data } = await axios.delete(`/api/v1/admin/order/${id}`)
+        dispatch({ type: DELETE_ORDER_SUCCESS, payload: data })
+    } catch (err) {
+        console.log(err)
+        dispatch({ type: DELETE_ORDER_FAIL, payload: err.response.data.errorMessage })
+    }
+}
+
 export const clearMessages = () => dispatch => {
     dispatch({ type: CLEAR_MESSAGES })
 }
