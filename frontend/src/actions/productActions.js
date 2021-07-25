@@ -18,6 +18,9 @@ import {
     SINGLE_PRODUCT_REQUEST,
     SINGLE_PRODUCT_SUCCESS,
     SINGLE_PRODUCT_FAIL,
+    PRODUCT_REVIEW_REQUEST,
+    PRODUCT_REVIEW_SUCCESS,
+    PRODUCT_REVIEW_FAIL,
     NEW_REVIEW_REQUEST,
     NEW_REVIEW_SUCCESS,
     NEW_REVIEW_RESET,
@@ -73,6 +76,18 @@ export const getSingleProduct = id => async dispatch => {
     }
 }
 
+export const getProductReview = id => async dispatch => {
+
+    try {
+        dispatch({ type: PRODUCT_REVIEW_REQUEST });
+        const { data } = await axios.get(`/api/v1/product/${id}`)
+        dispatch({ type: PRODUCT_REVIEW_SUCCESS, payload: data })
+
+    } catch (err) {
+        dispatch({ type: PRODUCT_REVIEW_FAIL, payload: err.response.data.errorMessage })
+    }
+}
+
 export const newProduct = product => async dispatch => {
 
     try {
@@ -123,7 +138,7 @@ export const deleteProduct = id => async dispatch => {
     }
 }
 
-export const newReview = review => async dispatch => {
+export const newReview = (review, id) => async dispatch => {
 
     try {
         dispatch({ type: NEW_REVIEW_REQUEST })
@@ -134,6 +149,7 @@ export const newReview = review => async dispatch => {
         }
         const { data } = await axios.put('/api/v1/review', review, config)
         dispatch({ type: NEW_REVIEW_SUCCESS, payload: data.message })
+        dispatch(getProductReview(id))
 
     } catch (err) {
         console.log(err.response.data.errorMessage)

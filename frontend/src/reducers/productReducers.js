@@ -21,6 +21,10 @@ import {
     SINGLE_PRODUCT_SUCCESS,
     SINGLE_PRODUCT_RESET,
     SINGLE_PRODUCT_FAIL,
+    PRODUCT_REVIEW_REQUEST,
+    PRODUCT_REVIEW_SUCCESS,
+    PRODUCT_REVIEW_RESET,
+    PRODUCT_REVIEW_FAIL,
     NEW_REVIEW_REQUEST,
     NEW_REVIEW_SUCCESS,
     NEW_REVIEW_RESET,
@@ -91,6 +95,42 @@ export const singleProductReducer = (state = { loading: true }, action) => {
             }
 
         case SINGLE_PRODUCT_RESET:
+            return {
+                state: null
+            }
+
+        case CLEAR_ERRORS:
+            return {
+                ...state,
+                error: false
+            }
+
+        default:
+            return state
+    }
+}
+
+export const reviewReducer = (state = { loading: true }, action) => {
+    switch (action.type) {
+        case PRODUCT_REVIEW_REQUEST:
+            return {
+                ...state,
+                loading: true,
+            }
+
+        case PRODUCT_REVIEW_SUCCESS:
+            return {
+                loading: false,
+                product: action.payload.product
+            }
+
+        case PRODUCT_REVIEW_FAIL:
+            return {
+                laoding: false,
+                error: action.payload
+            }
+
+        case PRODUCT_REVIEW_RESET:
             return {
                 state: null
             }

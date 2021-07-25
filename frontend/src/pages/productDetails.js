@@ -5,7 +5,7 @@ import MetaData from '../components/layouts/MetaData'
 import { Carousel } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { useAlert } from 'react-alert'
-import { getSingleProduct, clearErrors, clearMessages, newReview } from '../actions/productActions'
+import { getSingleProduct, clearErrors, clearMessages, newReview, getProductReview } from '../actions/productActions'
 import { addToCart, clearCartErrors, clearCartMessages } from '../actions/cartActions'
 
 const ProductDetails = ({ match, history }) => {
@@ -19,6 +19,7 @@ const ProductDetails = ({ match, history }) => {
 
     const { error: productError, product, loading } = useSelector(state => state.singleProduct)
     const { error: reviewError, message: reviewMessage } = useSelector(state => state.newReview)
+    const { error: getProductError, product: getProduct, loading: reviewLoading } = useSelector(state => state.getReview)
     const { error: cartError, message: cartMessage } = useSelector(state => state.cart)
     const { isAuthenticated, user } = useSelector(state => state.auth)
 
@@ -27,10 +28,11 @@ const ProductDetails = ({ match, history }) => {
 
     useEffect(() => {
         dispatch(getSingleProduct(match.params.id))
-    }, [reviewMessage, match.params.id, dispatch])
+        dispatch(getProductReview(match.params.id))
+    }, [match.params.id, dispatch])
 
     useEffect(() => {
-        if (product) {
+        if (product && user) {
             mereview.current = product ? product.reviews.find(item => item.user === user._id) : {}
             console.log('user is: ', mereview.current)
             if (mereview.current) {
@@ -38,7 +40,7 @@ const ProductDetails = ({ match, history }) => {
                 setRating(mereview.current.rating)
             }
         }
-    }, [product])
+    }, [product, user])
 
     useEffect(() => {
 
@@ -145,14 +147,14 @@ const ProductDetails = ({ match, history }) => {
         formData.set('rating', rating);
         formData.set('comment', review);
         formData.set('productId', match.params.id);
-        dispatch(newReview(formData));
+        dispatch(newReview(formData, match.params.id));
         setShowModal(false)
     }
 
     return (
         <>
             {
-                loading ? <Loader /> : (product ?
+                loading ? <Loader /> : (product || getProduct ?
                     <>
                         <MetaData title={product.name} />
                         <div className="row f-flex justify-content-around">
@@ -249,26 +251,27 @@ const ProductDetails = ({ match, history }) => {
 
                             </div>
                         </div>
-                        <div className="mx-5">
-                            <h3>Reviews:</h3>
-                            {product.reviews && product.reviews.length > 0 ? product.reviews.map(review =>
-                                <div key={review._id} className="reviews w-75">
-
-                                    <hr />
-                                    <div className="review-card my-3">
-                                        <ProductReview ratings={review.rating} />
-                                        <p className="review_user">by {review.name}</p>
-                                        <p className="review_comment">{review.comment}</p>
-
-                                        <hr />
-                                    </div>
-                                </div>
-                            ) : <p>No reviews</p>}
-                        </div>
-
                     </>
                     : <h3 className='not-found'>404 not found</h3>)
             }
+            {reviewLoading ? <> </> : (
+                <div className="mx-5">
+                    <h3>Reviews:</h3>
+                    {getProduct && getProduct.reviews && getProduct.reviews.length > 0 ? getProduct.reviews.map(review =>
+                        <div key={review._id} className="reviews w-75">
+
+                            <hr />
+                            <div className="review-card my-3">
+                                <ProductReview ratings={review.rating} />
+                                <p className="review_user">by {review.name}</p>
+                                <p className="review_comment">{review.comment}</p>
+
+                                <hr />
+                            </div>
+                        </div>
+                    ) : <p>No reviews</p>}
+                </div>
+            )}
         </>
 
     )
